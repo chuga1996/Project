@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_find"
+            android:icon="@drawable/ic_action_search"
+            android:title="Tìm phòng trọ" />
+        <item
+            android:id="@+id/nav_likedRoom"
+            android:icon="@drawable/ic_action_like"
+            android:title="Các phòng trọ đã thích" />
+        <item
+            android:id="@+id/nav_postRoom"
+            android:icon="@drawable/ic_add"
+            android:title="Đăng phòng cho thuê" />
+        <item
+            android:id="@+id/nav_postedRoom"
+            android:icon="@drawable/ic_list"
+            android:title="Các phòng đã đăng" />
+        <item
+            android:id="@+id/nav_gioithieu"
+            android:icon="@drawable/ic_action_info"
+            android:title="Giới thiệu" />
+        <item
+            android:id="@+id/nav_thoat"
+            android:icon="@drawable/ic_action_io"
+            android:title="Thoát" />
+    </group>
+
+
+
+</menu>
