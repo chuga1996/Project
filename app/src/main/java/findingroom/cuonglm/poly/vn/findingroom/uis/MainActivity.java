@@ -1,7 +1,9 @@
-package findingroom.cuonglm.poly.vn.findingroom;
+package findingroom.cuonglm.poly.vn.findingroom.uis;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import findingroom.cuonglm.poly.vn.findingroom.R;
 
 public class MainActivity extends AppCompatActivity {
 
