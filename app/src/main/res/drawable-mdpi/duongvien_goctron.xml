@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- và đây là bán kính đường tròn ở 4 góc -->
+    <corners
+        android:radius="5dp" >
+    </corners>
+
+    <!--set đường viền-->
+    <stroke
+        android:width="2dip"
+        android:color="#a9aca8" />
+
+    <!--set mau nền-->
+    <solid
+        android:color="#ffffff" />
+
+</shape>

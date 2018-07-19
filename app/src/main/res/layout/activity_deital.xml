@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".uis.DeitalActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_deital"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="80dp"
+                android:gravity="center"
+                android:text="Chi Tiết"
+                android:textColor="#fff"
+                android:textSize="18sp" />
+        </android.support.v7.widget.Toolbar>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/img_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo"
+                android:text="Deital"
+                android:textSize="30sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Địa Chỉ"
+                    android:textColor="#818480"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edt_diachi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/edt_diachi"
+                    android:background="@drawable/duongvien_goctron"
+                    android:hint="So 2 , Nguyen Viet Xuan"
+                    android:paddingLeft="10dp"
+                    android:textColor="#818480"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Xã/Phường"
+                    android:textColor="#818480"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edt_xaphuong"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/edt_diachi"
+                    android:background="@drawable/duongvien_goctron"
+                    android:hint="Quang Trung"
+                    android:paddingLeft="10dp"
+                    android:textColor="#818480"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Quận/Huyện"
+                    android:textColor="#818480"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edt_quanhuyen"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/edt_diachi"
+                    android:background="@drawable/duongvien_goctron"
+                    android:hint="Ha Dong"
+                    android:paddingLeft="10dp"
+                    android:textColor="#818480"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Giá"
+                    android:textColor="#818480"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edt_gia"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/edt_diachi"
+                    android:background="@drawable/duongvien_goctron"
+                    android:hint="10000"
+                    android:paddingLeft="10dp"
+                    android:textColor="#818480"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="Số Người"
+                    android:textColor="#818480"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edt_songuoi"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/edt_diachi"
+                    android:background="@drawable/duongvien_goctron"
+                    android:hint="2"
+                    android:paddingLeft="10dp"
+                    android:textColor="#818480"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="SĐT"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edt_sodienthoai"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@+id/edt_diachi"
+                    android:background="@drawable/duongvien_goctron"
+                    android:hint="01657822457"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_phone"
+                android:layout_marginTop="5dp"
+                android:text="Liên Hệ"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
