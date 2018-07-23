@@ -18,8 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".uis.ACLogin"
-            android:windowSoftInputMode="adjustPan">
+            android:name=".uis.CacPhongDaDangActivity"
+            android:windowSoftInputMode="adjustPan"
+            >
 
         </activity>
         <activity
@@ -30,7 +31,7 @@
         <activity
             android:name=".uis.SignupActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".uis.CacPhongDaDangActivity">
+        <activity android:name=".uis.ACLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
