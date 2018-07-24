@@ -1,6 +1,7 @@
 package findingroom.cuonglm.poly.vn.findingroom.uis;
 
 import android.app.ProgressDialog;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SignupActivity extends AppCompatActivity {
-    private EditText edtUsername;
-    private EditText edtFullName;
-    private EditText edtPassword;
-    private EditText edtRePassword;
-    private EditText edtEmail;
-    private EditText edtPhone;
+    private TextInputLayout edtUsername;
+    private TextInputLayout edtFullName;
+    private TextInputLayout edtPassword;
+    private TextInputLayout edtRePassword;
+    private TextInputLayout edtEmail;
+    private TextInputLayout edtPhone;
     private Button btnSignUp;
     String username, fullname, password, email, phone;
 
@@ -33,31 +34,44 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        edtUsername = (EditText) findViewById(R.id.edtUsername);
-        edtFullName = (EditText) findViewById(R.id.edtFullName);
-        edtPassword = (EditText) findViewById(R.id.edtPassword);
-        edtRePassword = (EditText) findViewById(R.id.edtRePassword);
-        edtEmail = (EditText) findViewById(R.id.edtEmail);
-        edtPhone = (EditText) findViewById(R.id.edtPhone);
+        edtUsername = (TextInputLayout) findViewById(R.id.edtUsername);
+        edtFullName = (TextInputLayout) findViewById(R.id.edtFullName);
+        edtPassword = (TextInputLayout) findViewById(R.id.edtPassword);
+        edtRePassword = (TextInputLayout) findViewById(R.id.edtRePassword);
+        edtEmail = (TextInputLayout) findViewById(R.id.edtEmail);
+        edtPhone = (TextInputLayout) findViewById(R.id.edtPhone);
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                username = edtUsername.getText().toString();
-                fullname = edtFullName.getText().toString();
-                password = edtPassword.getText().toString();
-                email = edtEmail.getText().toString();
-                phone = edtPhone.getText().toString();
-                if (edtUsername.getText().toString().isEmpty() && edtEmail.getText().toString().isEmpty()
-                        && edtPassword.getText().toString().isEmpty() && edtRePassword.getText().toString().isEmpty()) {
-                    Toast.makeText(SignupActivity.this, "Không để trống ", Toast.LENGTH_SHORT).show();
+                username = edtUsername.getEditText().getText().toString();
+                fullname = edtFullName.getEditText().getText().toString();
+                password = edtPassword.getEditText().getText().toString();
+                email = edtEmail.getEditText().getText().toString();
+                phone = edtPhone.getEditText().getText().toString();
+                if (username.isEmpty()) {
+                    edtUsername.setError("Không để trống tài khoản");
+                } else if(fullname.isEmpty()){
+                    edtFullName.setError("Không để trống tên");
+                } else if(password.isEmpty()){
+                    edtPassword.setError("Không để trống mật khẩu");
+                }else if(edtRePassword.getEditText().getText().toString().isEmpty()){
+                    edtRePassword.setError("Nhập lại mật khẩu");
+                } else if(email.isEmpty()){
+                    edtEmail.setError("Không để trống email");
                 } else {
-                    if (edtRePassword.getText().toString().equals(edtPassword.getText().toString())) {
+                    if (edtRePassword.getEditText().getText().toString().equals(edtPassword.getEditText().getText().toString())) {
+                        edtUsername.setErrorEnabled(false);
+                        edtFullName.setErrorEnabled(false);
+                        edtPassword.setErrorEnabled(false);
+                        edtRePassword.setErrorEnabled(false);
+                        edtEmail.setErrorEnabled(false);
                         DoingWithAPI.registerUser(SignupActivity.this, username, fullname, password, email, phone);
+
                     }else{
-                        Toast.makeText(SignupActivity.this, "Password và RePassword phải giống nhau", Toast.LENGTH_SHORT).show();
+                       edtRePassword.setError("Mật khẩu nhập lại khác mậu khẩu trên!");
                     }
                 }
             }

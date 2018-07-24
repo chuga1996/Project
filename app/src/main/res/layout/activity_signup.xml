@@ -24,7 +24,8 @@
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/edtUsername">
 
         <EditText
             android:layout_width="match_parent"
@@ -34,13 +35,13 @@
             android:drawableLeft="@drawable/ic_account_circle"
             android:drawablePadding="8dp"
             android:hint="Username"
-            android:id="@+id/edtUsername"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/edtFullName">
 
         <EditText
             android:layout_width="match_parent"
@@ -50,13 +51,14 @@
             android:drawableLeft="@drawable/ic_action_emo_basic"
             android:drawablePadding="8dp"
             android:hint="Fullname"
-            android:id="@+id/edtFullName"
+
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/edtPassword">
 
         <EditText
             android:layout_width="match_parent"
@@ -67,13 +69,13 @@
             android:drawablePadding="8dp"
             android:hint="Password"
             android:inputType="textPassword"
-            android:id="@+id/edtPassword"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/edtRePassword">
 
         <EditText
             android:layout_width="match_parent"
@@ -84,13 +86,13 @@
             android:drawablePadding="8dp"
             android:hint="Re-password"
             android:inputType="textPassword"
-            android:id="@+id/edtRePassword"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/edtEmail">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,13 +102,13 @@
             android:drawablePadding="8dp"
             android:hint="Email Address"
             android:inputType="textEmailAddress"
-            android:id="@+id/edtEmail"
             android:singleLine="true"/>
 
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/edtPhone">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,7 +118,6 @@
             android:drawablePadding="8dp"
             android:hint="Phone numer"
             android:inputType="phone"
-            android:id="@+id/edtPhone"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
