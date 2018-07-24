@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Danh sách" android:icon="@drawable/ic_list" android:id="@+id/bottomList"/>
+    <item android:title="Bản đồ" android:icon="@drawable/ic_location_on" android:id="@+id/bottmMap"/>
+</menu>
