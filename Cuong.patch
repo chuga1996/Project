@@ -1,0 +1,254 @@
+Index: app/src/main/res/menu/menu_bottom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/menu_bottom.xml	(date 1532418358754)
++++ app/src/main/res/menu/menu_bottom.xml	(date 1532418358754)
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<menu xmlns:android="http://schemas.android.com/apk/res/android">
++    <item android:title="Danh sách" android:icon="@drawable/ic_list" android:id="@+id/bottomList"/>
++    <item android:title="Bản đồ" android:icon="@drawable/ic_location_on" android:id="@+id/bottmMap"/>
++</menu>
+\ No newline at end of file
+Index: app/src/main/java/findingroom/cuonglm/poly/vn/findingroom/uis/ACLogin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/findingroom/cuonglm/poly/vn/findingroom/uis/ACLogin.java	(date 1532398021000)
++++ app/src/main/java/findingroom/cuonglm/poly/vn/findingroom/uis/ACLogin.java	(date 1532417074383)
+@@ -1,10 +1,12 @@
+ package findingroom.cuonglm.poly.vn.findingroom.uis;
+ 
+ import android.content.Intent;
++import android.graphics.Color;
+ import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+ import android.view.View;
+ import android.widget.Button;
++import android.widget.CheckBox;
+ import android.widget.EditText;
+ import android.widget.TextView;
+ 
+@@ -15,6 +17,7 @@
+     private EditText edtPassword;
+     private Button btnLogin;
+     private TextView tvSignup;
++    private CheckBox cbcheck;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -23,6 +26,7 @@
+         edtUser = (EditText) findViewById(R.id.edt_user);
+         edtPassword = (EditText) findViewById(R.id.edt_password);
+         btnLogin = (Button) findViewById(R.id.btn_login);
++        cbcheck=(CheckBox) findViewById(R.id.cbcheck);
+         tvSignup = (TextView) findViewById(R.id.tv_signup);
+ 
+         tvSignup.setOnClickListener(new View.OnClickListener() {
+Index: app/src/main/java/findingroom/cuonglm/poly/vn/findingroom/uis/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/findingroom/cuonglm/poly/vn/findingroom/uis/MainActivity.java	(date 1532398021000)
++++ app/src/main/java/findingroom/cuonglm/poly/vn/findingroom/uis/MainActivity.java	(date 1532417720984)
+@@ -83,7 +83,7 @@
+         int id = item.getItemId();
+ 
+         if (id == R.id.nav_find) {
+-            // Handle the camera action
++
+         } else if (id == R.id.nav_likedRoom) {
+ 
+         } else if (id == R.id.nav_postRoom) {
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_login.xml	(date 1532398021000)
++++ app/src/main/res/layout/activity_login.xml	(date 1532417074408)
+@@ -58,6 +58,14 @@
+                     android:hint="Password"
+                     android:singleLine="true"/>
+             </android.support.design.widget.TextInputLayout>
++            <CheckBox
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:id="@+id/cbcheck"
++                android:checked="false"
++                android:textColor="#888888"
++                android:text="Remember"
++                />
+ 
+             <Button
+                 android:id="@+id/btn_login"
+@@ -77,5 +85,6 @@
+             android:gravity="center"
+             android:text="Sign up"
+             android:layout_below="@id/linear"/>
++
+     </RelativeLayout>
+ </ScrollView>
+\ No newline at end of file
+Index: app/src/main/res/layout/app_bar_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/app_bar_main.xml	(date 1532398021000)
++++ app/src/main/res/layout/app_bar_main.xml	(date 1532417720958)
+@@ -22,12 +22,5 @@
+ 
+     <include layout="@layout/content_main" />
+ 
+-    <android.support.design.widget.FloatingActionButton
+-        android:id="@+id/fab"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_gravity="bottom|end"
+-        android:layout_margin="@dimen/fab_margin"
+-        app:srcCompat="@android:drawable/ic_dialog_email" />
+ 
+ </android.support.design.widget.CoordinatorLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/content_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/content_main.xml	(date 1532398021000)
++++ app/src/main/res/layout/content_main.xml	(date 1532418383016)
+@@ -1,5 +1,5 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+@@ -7,5 +7,9 @@
+     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+     tools:context=".uis.MainActivity"
+     tools:showIn="@layout/app_bar_main">
+-
+-</android.support.constraint.ConstraintLayout>
+\ No newline at end of file
++    <android.support.design.widget.BottomNavigationView
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_gravity="bottom"
++        app:menu="@menu/menu_bottom"/>
++</android.support.design.widget.CoordinatorLayout>
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(date 1532398021000)
++++ app/src/main/AndroidManifest.xml	(date 1532417190570)
+@@ -20,11 +20,7 @@
+         <activity
+             android:name=".uis.ACLogin"
+             android:windowSoftInputMode="adjustPan">
+-            <intent-filter>
+-                <action android:name="android.intent.action.MAIN" />
+ 
+-                <category android:name="android.intent.category.LAUNCHER" />
+-            </intent-filter>
+         </activity>
+         <activity
+             android:name=".uis.MainActivity"
+@@ -35,7 +31,11 @@
+             android:name=".uis.SignupActivity"
+             android:windowSoftInputMode="adjustPan" />
+         <activity android:name=".uis.CacPhongDaDangActivity">
++            <intent-filter>
++                <action android:name="android.intent.action.MAIN" />
+ 
++                <category android:name="android.intent.category.LAUNCHER" />
++            </intent-filter>
+         </activity>
+     </application>
+ 
+diff --git app/src/main/res/drawable-hdpi/ic_location_on.png app/src/main/res/drawable-hdpi/ic_location_on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c214dc24af9acffa729559cdc485adf206687a78
+GIT binary patch
+literal 332
+zc$@)D0ki&zP)<h;3K|Lk000e1NJLTq000{R000{Z1ONa4C*3^W0003KNkl<Zc-muN
+z7<iz;P|L8EVJ{HZFsKu!MU-JB!#{@qaQKg58G|q(O^OWnk+i_zJqCGvnm8G*VbKJF
+zml-&4YpcVd2?VQfX<}x030L%)p@|`wp_$<eT;w?e6LxLJa3y~kte|3cNWo)(U0XO@
+z!BHg9<8aY1?AjvW3U(oh?tzO&VAo~?SMZHN8Y(8s@EtB{g<TsL!w<NUYYeWyh<9VS
+z0T=lWj2;|dGoA?8h&$f=@o4kIt&IuEQK;}bu2_SBNF3V2@h4?Qh7(vc9S4dN07eXd
+z&@}yFFeE0&b)sqOATFb_F<eB_bOFdG5@<4fg=+c&EFee#(NJwsq!vT{Kuvw5mtM>a
+erTC+megFUwyw;(gW{6(^0000<MNUMnLSTY|U4?r9
+
+diff --git app/src/main/res/drawable-mdpi/ic_location_on.png app/src/main/res/drawable-mdpi/ic_location_on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0eab6f6284f76638a705300986432b206fe7458c
+GIT binary patch
+literal 235
+zc%17D@N?(olHy`uVBq!ia0vp^LLkh+0wn(&ce?|mHhH=@hE&{2PEe3EFy3J}g?XX&
+zgjQw=<2wmI_*<__@NCq)nDm1soT*7((!@aYZKGEmlb3UZ^~I?k4ys~?8yFuZ8T^)S
+zmRO~fy+TRXz+d{*W~b04+@jyuKQ}F~$qjMU;gLUZC|^=bLQC>q<IVSti!u_-y6!s^
+zh%I|>BKdET#!qgMgG|pBYRqc3J#w@`uSv7=utJx1lG1~&Lmyo~)@+!x^T%aI^}~@0
+iPZXxaENPq|!@#hhEk3HRb&C(s^$eb_elF{r5}E+F=2rp$
+
+diff --git app/src/main/res/drawable-xhdpi/ic_location_on.png app/src/main/res/drawable-xhdpi/ic_location_on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b21efe7472374c636dc4b5a64c1d6d4bed01767e
+GIT binary patch
+literal 413
+zc$@*90b>4%P)<h;3K|Lk000e1NJLTq001Na001Ni1ONa4O9@aD0004GNkl<Zc-muN
+z7?FUNA(deh!y|@YK=_DZBSQ)U59x+5F%&YqWB88--!kL_Wk>*g47)K5fx#U>ml6rM
+z7>?sK1_X~Xa1v+GT)f7B;0$7nu_kEDe};by7K9Djf~M&=!&!#Yz<5Iy-AKq7VTL~_
+z8n!Y>g2g3)EL7tK@EhcdqWlsA8(fBs;WCPxH-3W(Q52`6$fcpk72r3h21T(8iku6I
+zTs3}!a#0kgqR6GA$YtX<$OC5>u`^snk#oaukPyRPtg$8y%o@nze;EV`C4j?dDdrc$
+z8DL8KjV5}KaDvPtB4z()$RH-?e<o<mXW~kLK7t1I5|{fW8NT5)<|{M;hyd+)4QeH&
+zw0?%un5V>-kRT9=)1U}ai~p@yjoCtaJtEEU9>bV-Kv6P41cpK3<W`aMP>h*NeqGCj
+zR4QI1wi3b)R2e>ijd{<YLTL-Y6If*Y0g_Yz`3!jsBN+eyKy7`FL>TN800000NkvXX
+Hu0mjf!mp#o
+
+diff --git app/src/main/res/drawable-xxhdpi/ic_location_on.png app/src/main/res/drawable-xxhdpi/ic_location_on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..96274de7925eeb6c0c14ec52f4d41d68c6fe7754
+GIT binary patch
+literal 577
+zc$@)20>1r;P)<h;3K|Lk000e1NJLTq001@s001@!1ONa4CQPDM0006ANkl<Zc-rmQ
+z%PT}t90&04h=pM`vXN1u#6RHm4|pUSc`c9{dF8c1B32$7vXW$@h)5yHV=ue$el29@
+zl|1t*oS~6%f7i_K+;c7P`)#I~Z@<q>-8uK13;fq_uP~&c5>28j#j7y0m<Y6C8!uma
+z3#|xO3x%Q|j~d9`59mXPDk>9ax{$k1k)eWW@(R88Ga8Iitv*uk-E4#^U{S8llcl0@
+z!^W-=DTmFnDOXR+P)SmhtK<3DsP3>$@!2Tx2Y2@{mkP!mImn5GPrrSQ%-q7t!_vty
+z%Lw}Nl~%}H3J+@|M%)uuT9jC<w8<78HcX5dBa`Dqa)^h`5hH5IWG#`L<zWlN2nU&T
+z5XpJt7k)dL>>`pQJgkQpu>*@H=ZAeF+0Da>$V<9fldB_h1w1U49P)%hk5sXEhswop
+z*N{V<#b`m?M&d;0V@W4*z+W4Cr5ECEK9($vCCc1n)}$z>+|9FG3M-SttT<*<M+lVN
+zg*39UdimXz4JRz>Slr<ZR22)WFt$kzz@E?4F8qz|iBo;XQlOwFeWE7RoMP;_^h#Z*
+zJEfI+#Y)s21}#|pmReMM_O#<%mpWH{&;@dJu^cmw@Pi~ZV9xUbD>gLLI(J{s*_m8>
+zP*?oj2B)$;uq?Bm@pOJr9p*n!^25v<H6>pCK-sV=b{fI>p|XqquRl?*n4ns1;4Pm+
+P00000NkvXXu0mjfK-~=U
+
+diff --git app/src/main/res/drawable-xxxhdpi/ic_location_on.png app/src/main/res/drawable-xxxhdpi/ic_location_on.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba0538e1f4fc314f84d7fc604bcd0a68dd07e464
+GIT binary patch
+literal 764
+zc$@+J0t5YtP)<h;3K|Lk000e1NJLTq002k;002k`1ONa4|Kxkj0008RNkl<Zc-rlm
+z&r4KM6vw~POlhkY5@@z5kld75V6-rrKcFB;Dhin<w?>PW5xLNIW^N+Ig&+(Xnu{W&
+zAGoM(mLnoTAZ@a7W?YPkgQMPuDay<}@5ed!%?R&%HZ#2Uz3;<)=iMLY0)YYrDqkHz
+z1f7_`98$=sNU2|M@Dx|n72kCM16anUCNg-1^Zvm!VN#2-H{PSsJj_w_A@2ysigi3k
+zrAeGKNH~Vsi65vpg>wmM*Em)z;i4Iw6;C);WYH}DveKS$wtJ~wHkA`B94o#{rgtA3
+z$BG`gaVIYVw2pH!K$9XkR=ks$BsK-3i4Qbj`;fngqf12`N!xp0@@MpA@&SL)hS2Wa
+zVMMV=-k-){9#F()TBs>-)MAG8wD5pB$=<0c>N%laqTcm{2Q)!6-KKTL2-g@7XpTtb
+zkk%C@(tDN%l+rdFCw(JYUy=uu(>B~i`nt8gH6GAEk3i3~z8nwex5rmDs`aIKK;MX5
+z2op)YM2uZ5jSwGjRO@OdT(5aRkBFuh)u>!db>y7(m<M#3oCapps9cCMOL`(apeo`!
+z+a4ZcdvYnPUKTy$ud3xRQ{%QviloZ4ZuOy$5~;isZ~5z?yP^xUC?DvU>SigNRn?k+
+zhQxq|rS_~+KrIl`v<S|$+(z-X2+$olphNh{#`#4o=sYOK2D&F({Rm;6g)=YPKbEeu
+zfNq#5S$*-0^VLjAuNfPja5m)YXU_Ne#bVH06}Fn#7U|c})g}wW?XH3Dn=PDI;FBwy
+z&*p3Sr(BeWS8&>ovyKkOKpp-ZzEt3YBb<-wPM=hVj4e(EC;dDxYqbSx_4^2~pTz0+
+z|4gxp*bpYv)e@)yS<Tr`14^V@MS*UjgnChc(~FWSgsFWvQ}QcAw>pl6U7Q8=uME`q
+uKe@9wi!#wQ<W*cn8R;P&AW)z{2SQtiS@y{&w~m+q0000<MNUMnLSTY9iDqg5
+
