@@ -20,11 +20,7 @@
         <activity
             android:name=".uis.ACLogin"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".uis.MainActivity"
@@ -35,7 +31,11 @@
             android:name=".uis.SignupActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".uis.CacPhongDaDangActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
