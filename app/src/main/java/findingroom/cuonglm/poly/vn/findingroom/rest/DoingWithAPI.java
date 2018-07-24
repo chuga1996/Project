@@ -99,7 +99,6 @@ public class DoingWithAPI {
                                         });
                                         builder.show();
                                     }
-
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
