@@ -1,9 +1,8 @@
 package findingroom.cuonglm.poly.vn.findingroom.uis;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,16 +11,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.DangPhongTroActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private FrameLayout frameLayout;
+    private DangPhongTroActivity phongTroActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -34,6 +38,18 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        phongTroActivity = new DangPhongTroActivity();
+//        frameLayout = (FrameLayout) findViewById(R.id.frameMain);
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        if (phongTroActivity.isAdded()){
+//            transaction.show(phongTroActivity);
+//        }else {
+//            transaction.add(R.id.frameMain,phongTroActivity);
+//
+//        }
+//        transaction.commit();
     }
 
     @Override

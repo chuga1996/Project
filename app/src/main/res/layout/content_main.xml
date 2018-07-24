@@ -8,11 +8,13 @@
     tools:context=".uis.MainActivity"
     tools:showIn="@layout/app_bar_main"
     android:orientation="vertical">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/frameMain"></FrameLayout>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomMenu"
         android:layout_width="match_parent"

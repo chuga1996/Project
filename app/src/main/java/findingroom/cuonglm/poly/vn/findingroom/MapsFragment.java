@@ -30,7 +30,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 //        mapFragment.getMapAsync(this);
 //    }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

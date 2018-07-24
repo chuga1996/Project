@@ -26,16 +26,19 @@
             android:name=".uis.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".uis.SignupActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".uis.CacPhongDaDangActivity">
+            android:windowSoftInputMode="adjustPan">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".uis.SignupActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".uis.CacPhongDaDangActivity">
+
         </activity>
     </application>
 
