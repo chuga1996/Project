@@ -46,7 +46,6 @@ public class DoingWithAPI {
             @Override
             public void onResponse(Call<JsonElement> call, final Response<JsonElement> response) {
                 JsonElement jsonElement = response.body();
-                Log.e("respone",response.body().getAsString());
                 JsonObject getNonce = jsonElement.getAsJsonObject();
                 String nonce = getNonce.get("nonce").getAsString();
                 Call<JsonElement> callRegister = RestClient.getApiInterface().registerUser(user_name, email, nonce, pass, name, phone);
