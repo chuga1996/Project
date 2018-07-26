@@ -23,7 +23,7 @@ import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 
-public class DangPhongTroActivity extends Fragment implements View.OnClickListener {
+public class DangPhongTroActivity extends android.support.v4.app.Fragment implements View.OnClickListener {
     private Toolbar toolbarDeital;
     List<ImageView> imgList;
     private ImageView img1Dpt;
@@ -87,11 +87,11 @@ public class DangPhongTroActivity extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_upload_image_dpt:
-                Intent intent = new Intent(Intent.ACTION_PICK);
+                Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(Intent.createChooser(intent, "Mời bạn chọn ảnh"), RESULT_LOAD_IMAGE);
+                startActivityForResult(Intent.createChooser(intent,"Select Picture"), RESULT_LOAD_IMAGE);
                 break;
         }
     }
@@ -104,9 +104,10 @@ public class DangPhongTroActivity extends Fragment implements View.OnClickListen
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
                     imagesEncodedList = new ArrayList<String>();
                     if (data.getData() != null) {
-
+//
                         Uri mImageUri = data.getData();
-
+                Log.d("mImageUri", "onActivityResult: "+mImageUri.toString());
+//
                         // Get the cursor
                         Cursor cursor = getActivity().getContentResolver().query(mImageUri,
                                 filePathColumn, null, null, null);
@@ -114,7 +115,9 @@ public class DangPhongTroActivity extends Fragment implements View.OnClickListen
                         cursor.moveToFirst();
 
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+
                         imageEncoded = cursor.getString(columnIndex);
+                        img1Dpt.setImageURI(Uri.parse(imageEncoded));
                         cursor.close();
 
                     } else {
@@ -144,7 +147,8 @@ public class DangPhongTroActivity extends Fragment implements View.OnClickListen
                     Toast.makeText(getActivity(), "You haven't picked Image",
                             Toast.LENGTH_LONG).show();
                 }
-//                img1Dpt.setImageURI(Uri.parse(imageEncoded));
+                Log.d("Dangphongtroactivity", "onActivityResult: "+imagesEncodedList.size());
+
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

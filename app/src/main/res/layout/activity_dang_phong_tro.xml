@@ -8,24 +8,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_deital"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimary"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="80dp"
-                android:gravity="center"
-                android:text="Đăng phòng trọ"
-                android:textColor="#fff"
-                android:textSize="18sp" />
-        </android.support.v7.widget.Toolbar>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

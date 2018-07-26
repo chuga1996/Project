@@ -39,17 +39,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        phongTroActivity = new DangPhongTroActivity();
-//        frameLayout = (FrameLayout) findViewById(R.id.frameMain);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        if (phongTroActivity.isAdded()){
-//            transaction.show(phongTroActivity);
-//        }else {
-//            transaction.add(R.id.frameMain,phongTroActivity);
-//
-//        }
-//        transaction.commit();
+        phongTroActivity = new DangPhongTroActivity();
+        frameLayout = (FrameLayout) findViewById(R.id.frameMain);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if (phongTroActivity.isAdded()){
+            transaction.show(phongTroActivity);
+        }else {
+            transaction.add(R.id.frameMain,phongTroActivity);
+
+        }
+        transaction.commit();
     }
 
     @Override
