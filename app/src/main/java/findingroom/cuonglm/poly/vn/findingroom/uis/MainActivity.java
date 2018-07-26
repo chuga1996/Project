@@ -20,14 +20,13 @@ import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.PostRoomFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.TimPhongTroFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FrameLayout frameLayout;
-    private CacPhongDaDangFragment CacPhongDaDangFragment;
-    private MapsFragment mapsFragment;
-    private BottomNavigationView bottomNavigationView;
     private PostRoomFragment postRoomFragment;
+    private TimPhongTroFragment timPhongTroFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,68 +46,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        CacPhongDaDangFragment = new CacPhongDaDangFragment();
-        mapsFragment = new MapsFragment();
         postRoomFragment = new PostRoomFragment();
+        timPhongTroFragment = new TimPhongTroFragment();
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        if (CacPhongDaDangFragment.isAdded()) {
-            transaction.show(CacPhongDaDangFragment);
-        } else {
-            transaction.add(R.id.frameMain, CacPhongDaDangFragment);
-
-        }
-        for (Fragment x : fragmentManager.getFragments()) {
-            if (x != CacPhongDaDangFragment && x.isAdded()) {
-                transaction.hide(x);
-            }
-        }
-        transaction.commit();
-
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                switch (item.getItemId()) {
-                    case R.id.bottomList:
-                        if (CacPhongDaDangFragment.isAdded()) {
-                            transaction.show(CacPhongDaDangFragment);
-                        } else {
-                            transaction.add(R.id.frameMain, CacPhongDaDangFragment);
-
-                        }
-                        for (Fragment x : fragmentManager.getFragments()) {
-                            if (x != CacPhongDaDangFragment && x.isAdded()) {
-                                transaction.hide(x);
-                            }
-                        }
-                        transaction.commit();
-                        break;
-
-                    case R.id.bottmMap:
-
-                        if (mapsFragment.isAdded()) {
-                            transaction.show(mapsFragment);
-                        } else {
-                            transaction.add(R.id.frameMain, mapsFragment);
-
-                        }
-                        for (Fragment x : fragmentManager.getFragments()) {
-                            if (x != mapsFragment && x.isAdded()) {
-                                transaction.hide(x);
-                            }
-                        }
-                        transaction.commit();
-                        break;
-                }
-
-                return true;
-            }
-        });
 
     }
 
@@ -153,17 +93,25 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_find) {
+            if (timPhongTroFragment.isAdded()) {
+                transaction.show(timPhongTroFragment);
+            } else {
+                transaction.add(R.id.frameMain, timPhongTroFragment);
+            }
+            for (Fragment x : fragmentManager.getFragments()) {
+                if (x != timPhongTroFragment && x.isAdded()) {
+                    transaction.hide(x);
+                }
+            }
+            transaction.commit();
 
         } else if (id == R.id.nav_likedRoom) {
 
         } else if (id == R.id.nav_postRoom) {
-
-        } else if (id == R.id.nav_postedRoom) {
             if (postRoomFragment.isAdded()) {
-                transaction.show(mapsFragment);
+                transaction.show(postRoomFragment);
             } else {
                 transaction.add(R.id.frameMain, postRoomFragment);
-
             }
             for (Fragment x : fragmentManager.getFragments()) {
                 if (x != postRoomFragment && x.isAdded()) {
@@ -171,6 +119,9 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             transaction.commit();
+
+        } else if (id == R.id.nav_postedRoom) {
+
 
         } else if (id == R.id.nav_gioithieu) {
 

@@ -14,11 +14,4 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:id="@+id/frameMain"></FrameLayout>
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottomMenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:menu="@menu/menu_bottom"/>
 </LinearLayout>
