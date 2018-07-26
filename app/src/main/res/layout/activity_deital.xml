@@ -19,6 +19,13 @@
             android:background="@color/colorPrimary"
             android:gravity="center">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Chi Tiết"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/mautrang"/>
         </android.support.v7.widget.Toolbar>
 
         <LinearLayout

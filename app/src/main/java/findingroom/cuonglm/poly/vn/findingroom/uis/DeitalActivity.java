@@ -16,9 +16,8 @@ public class DeitalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_deital);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_deital);
+        toolbar.setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
-        toolbar.setTitle("Chi Tiết");
-        toolbar.setTitleTextColor(R.color.mautrang);
         setSupportActionBar(toolbar);
 
     }

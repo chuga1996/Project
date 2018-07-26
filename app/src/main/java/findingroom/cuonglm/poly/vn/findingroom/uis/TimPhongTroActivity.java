@@ -1,32 +1,38 @@
-package findingroom.cuonglm.poly.vn.findingroom.fragment;
+package findingroom.cuonglm.poly.vn.findingroom.uis;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
 
-public class TimPhongTroFragment extends Fragment {
-    private CacPhongDaDangFragment CacPhongDaDangFragment;
+public class TimPhongTroActivity extends AppCompatActivity {
+    private findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment CacPhongDaDangFragment;
     private MapsFragment mapsFragment;
     private BottomNavigationView bottomNavigationView;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_tim_phong_tro,container,false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tim_phong_tro);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_timphongtro);
+        toolbar.setTitle("");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        setSupportActionBar(toolbar);
+
         CacPhongDaDangFragment = new CacPhongDaDangFragment();
         mapsFragment = new MapsFragment();
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
         if (CacPhongDaDangFragment.isAdded()) {
@@ -37,11 +43,11 @@ public class TimPhongTroFragment extends Fragment {
         }
         transaction.commit();
 
-        bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottomMenu);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.bottomList:
@@ -76,8 +82,6 @@ public class TimPhongTroFragment extends Fragment {
             }
         });
 
-        return view;
     }
-
 
 }

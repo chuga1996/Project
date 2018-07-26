@@ -52,6 +52,8 @@
         <activity
             android:name=".fragment.MapsFragment"
             android:label="@string/title_activity_maps_fragment"></activity>
+        <activity android:name=".uis.TimPhongTroActivity"
+            android:parentActivityName=".uis.MainActivity"></activity>
     </application>
 
 </manifest>
