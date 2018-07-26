@@ -27,7 +27,7 @@ import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 
-public class DangPhongTroActivity extends android.support.v4.app.Fragment implements View.OnClickListener {
+public class PostRoomFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     private Toolbar toolbarDeital;
     List<ImageView> imgList;
     private ImageView img1Dpt;
