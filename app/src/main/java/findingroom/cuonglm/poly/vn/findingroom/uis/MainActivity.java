@@ -1,6 +1,8 @@
 package findingroom.cuonglm.poly.vn.findingroom.uis;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,14 +17,17 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.PostRoomFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FrameLayout frameLayout;
-    private PostRoomFragment postRoomFragment;
+    private CacPhongDaDangFragment CacPhongDaDangFragment;
     private MapsFragment mapsFragment;
+    private BottomNavigationView bottomNavigationView;
+    private PostRoomFragment postRoomFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,31 +47,68 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        postRoomFragment = new PostRoomFragment();
+        CacPhongDaDangFragment = new CacPhongDaDangFragment();
         mapsFragment = new MapsFragment();
+        postRoomFragment = new PostRoomFragment();
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        if (phongTroActivity.isAdded()){
-//            transaction.show(phongTroActivity);
-//        }else {
-//            transaction.add(R.id.frameMain,phongTroActivity);
-//
-//        }
-//        transaction.commit();
 
-        if (mapsFragment.isAdded()){
-            transaction.show(mapsFragment);
-        }else {
-            transaction.add(R.id.frameMain,mapsFragment);
+        if (CacPhongDaDangFragment.isAdded()) {
+            transaction.show(CacPhongDaDangFragment);
+        } else {
+            transaction.add(R.id.frameMain, CacPhongDaDangFragment);
 
         }
-        for (Fragment x : fragmentManager.getFragments()){
-            if (x != mapsFragment && x.isAdded()){
+        for (Fragment x : fragmentManager.getFragments()) {
+            if (x != CacPhongDaDangFragment && x.isAdded()) {
                 transaction.hide(x);
             }
         }
         transaction.commit();
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomMenu);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                switch (item.getItemId()) {
+                    case R.id.bottomList:
+                        if (CacPhongDaDangFragment.isAdded()) {
+                            transaction.show(CacPhongDaDangFragment);
+                        } else {
+                            transaction.add(R.id.frameMain, CacPhongDaDangFragment);
+
+                        }
+                        for (Fragment x : fragmentManager.getFragments()) {
+                            if (x != CacPhongDaDangFragment && x.isAdded()) {
+                                transaction.hide(x);
+                            }
+                        }
+                        transaction.commit();
+                        break;
+
+                    case R.id.bottmMap:
+
+                        if (mapsFragment.isAdded()) {
+                            transaction.show(mapsFragment);
+                        } else {
+                            transaction.add(R.id.frameMain, mapsFragment);
+
+                        }
+                        for (Fragment x : fragmentManager.getFragments()) {
+                            if (x != mapsFragment && x.isAdded()) {
+                                transaction.hide(x);
+                            }
+                        }
+                        transaction.commit();
+                        break;
+                }
+
+                return true;
+            }
+        });
 
     }
 
@@ -106,6 +148,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         int id = item.getItemId();
 
         if (id == R.id.nav_find) {
@@ -115,6 +159,18 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_postRoom) {
 
         } else if (id == R.id.nav_postedRoom) {
+            if (postRoomFragment.isAdded()) {
+                transaction.show(mapsFragment);
+            } else {
+                transaction.add(R.id.frameMain, postRoomFragment);
+
+            }
+            for (Fragment x : fragmentManager.getFragments()) {
+                if (x != postRoomFragment && x.isAdded()) {
+                    transaction.hide(x);
+                }
+            }
+            transaction.commit();
 
         } else if (id == R.id.nav_gioithieu) {
 

@@ -1,6 +1,8 @@
 package findingroom.cuonglm.poly.vn.findingroom.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
+import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
 
 public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAdapter.ViewHolder> {
     private List<PhongTro> phongTroList;
@@ -27,7 +30,7 @@ public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
-        final Context context = view.getContext();
+        Context context = view.getContext();
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,17 +39,25 @@ public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAd
             }
         });
 
+
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         PhongTro phongTro = phongTroList.get(position);
         holder.imgHinhanhphongtro.setImageResource(phongTro.getmImg());
         holder.tvDiachi.setText(phongTro.getmDiaChi());
         holder.tvSonguoi.setText(phongTro.getmSoNguoi());
         holder.tvGia.setText(phongTro.getmGia());
 
+        holder.tvChitiet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                context.startActivity(new Intent((Activity)context , DeitalActivity.class));
+            }
+        });
 
     }
 

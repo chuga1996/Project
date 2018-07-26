@@ -18,15 +18,8 @@
             android:layout_gravity="center"
             android:background="@color/colorPrimary"
             android:gravity="center">
+            \
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="80dp"
-                android:gravity="center"
-                android:text="Chi Tiết"
-                android:textColor="#fff"
-                android:textSize="18sp" />
         </android.support.v7.widget.Toolbar>
 
         <LinearLayout
@@ -71,13 +64,12 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_diachi_dpt"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:hint="So 2 , Nguyen Viet Xuan"
                     android:paddingLeft="10dp"
                     android:textColor="#818480"
                     android:textSize="16dp" />
@@ -98,13 +90,12 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_xaphuong"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:hint="Quang Trung"
                     android:paddingLeft="10dp"
                     android:textColor="#818480"
                     android:textSize="16dp" />
@@ -125,13 +116,12 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_quanhuyen"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:hint="Ha Dong"
                     android:paddingLeft="10dp"
                     android:textColor="#818480"
                     android:textSize="16dp" />
@@ -152,13 +142,12 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_gia"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:hint="10000"
                     android:paddingLeft="10dp"
                     android:textColor="#818480"
                     android:textSize="16dp" />
@@ -179,13 +168,12 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_songuoi"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:hint="2"
                     android:paddingLeft="10dp"
                     android:textColor="#818480"
                     android:textSize="16dp" />
@@ -205,13 +193,12 @@
                     android:text="SĐT"
                     android:textSize="14dp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_sodienthoai"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:hint="01657822457"
                     android:paddingLeft="10dp"
                     android:textSize="16dp" />
 
