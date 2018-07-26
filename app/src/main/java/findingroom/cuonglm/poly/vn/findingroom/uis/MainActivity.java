@@ -15,13 +15,13 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.fragment.DangPhongTroActivity;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.PostRoomFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FrameLayout frameLayout;
-    private DangPhongTroActivity phongTroActivity;
+    private PostRoomFragment postRoomFragment;
     private MapsFragment mapsFragment;
 
     @Override
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        phongTroActivity = new DangPhongTroActivity();
+        postRoomFragment = new PostRoomFragment();
         mapsFragment = new MapsFragment();
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         FragmentManager fragmentManager = getSupportFragmentManager();
