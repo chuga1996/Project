@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.content.ClipData;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +20,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +45,9 @@ public class DangPhongTroActivity extends android.support.v4.app.Fragment implem
     private Button btnUploadImageDpt;
     private Button btnPostDpt;
     private Button btnCancleDpt;
-    String imageEncoded;
-    List<String> imagesEncodedList;
+    private Bitmap bitmap;
     private static final int RESULT_LOAD_IMAGE = 100;
+    private int current = 0;
 
     @Nullable
     @Override
@@ -101,53 +105,21 @@ public class DangPhongTroActivity extends android.support.v4.app.Fragment implem
         switch (requestCode) {
             case RESULT_LOAD_IMAGE:
                 if (resultCode == getActivity().RESULT_OK) {
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    imagesEncodedList = new ArrayList<String>();
-                    if (data.getData() != null) {
-//
-                        Uri mImageUri = data.getData();
-                Log.d("mImageUri", "onActivityResult: "+mImageUri.toString());
-//
-                        // Get the cursor
-                        Cursor cursor = getActivity().getContentResolver().query(mImageUri,
-                                filePathColumn, null, null, null);
-                        // Move to first row
-                        cursor.moveToFirst();
-
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
-                        imageEncoded = cursor.getString(columnIndex);
-                        img1Dpt.setImageURI(Uri.parse(imageEncoded));
-                        cursor.close();
-
-                    } else {
-                        if (data.getClipData() != null) {
-                            ClipData mClipData = data.getClipData();
-                            ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-                            for (int i = 0; i < mClipData.getItemCount(); i++) {
-
-                                ClipData.Item item = mClipData.getItemAt(i);
-                                Uri uri = item.getUri();
-                                mArrayUri.add(uri);
-                                // Get the cursor
-                                Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
-                                // Move to first row
-                                cursor.moveToFirst();
-
-                                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                imageEncoded = cursor.getString(columnIndex);
-                                imagesEncodedList.add(imageEncoded);
-                                cursor.close();
-
-                            }
-                            Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
+                    try {
+                        InputStream inputStream = getActivity().getContentResolver().openInputStream(data.getData());
+                        bitmap = BitmapFactory.decodeStream(inputStream);
+                        if (current < 6){
+                            imgList.get(current).setImageBitmap(bitmap);
+                            current++;
                         }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
+
                 } else {
                     Toast.makeText(getActivity(), "You haven't picked Image",
                             Toast.LENGTH_LONG).show();
                 }
-                Log.d("Dangphongtroactivity", "onActivityResult: "+imagesEncodedList.size());
 
                 break;
         }

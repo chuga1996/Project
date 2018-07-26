@@ -1,6 +1,7 @@
 package findingroom.cuonglm.poly.vn.findingroom.uis;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -15,11 +16,13 @@ import android.widget.FrameLayout;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.DangPhongTroActivity;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FrameLayout frameLayout;
     private DangPhongTroActivity phongTroActivity;
+    private MapsFragment mapsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +43,31 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         phongTroActivity = new DangPhongTroActivity();
+        mapsFragment = new MapsFragment();
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (phongTroActivity.isAdded()){
-            transaction.show(phongTroActivity);
+//        if (phongTroActivity.isAdded()){
+//            transaction.show(phongTroActivity);
+//        }else {
+//            transaction.add(R.id.frameMain,phongTroActivity);
+//
+//        }
+//        transaction.commit();
+
+        if (mapsFragment.isAdded()){
+            transaction.show(mapsFragment);
         }else {
-            transaction.add(R.id.frameMain,phongTroActivity);
+            transaction.add(R.id.frameMain,mapsFragment);
 
         }
+        for (Fragment x : fragmentManager.getFragments()){
+            if (x != mapsFragment && x.isAdded()){
+                transaction.hide(x);
+            }
+        }
         transaction.commit();
+
     }
 
     @Override
