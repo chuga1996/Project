@@ -40,6 +40,7 @@ public class ACLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 savingPreferent();
+                startActivity(new Intent(ACLogin.this, MainActivity.class));
             }
         });
 
@@ -49,7 +50,7 @@ public class ACLogin extends AppCompatActivity {
         SharedPreferences.Editor editor=preferences.edit();
         String user=edtUser.getText().toString();
         String password=edtPassword.getText().toString();
-        boolean check=cbcheck.isChecked();
+        boolean check = cbcheck.isChecked();
         if (!check){
             editor.clear();
         }else {

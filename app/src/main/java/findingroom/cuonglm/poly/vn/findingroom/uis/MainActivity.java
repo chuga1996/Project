@@ -19,6 +19,8 @@ import android.widget.FrameLayout;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaThichFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.GioiThieuFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.PostRoomFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity
     private FrameLayout frameLayout;
     private PostRoomFragment postRoomFragment;
     private CacPhongDaDangFragment cacPhongDaDangFragment;
+    private CacPhongDaThichFragment cacPhongDaThichFragment;
+    private GioiThieuFragment gioiThieuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Finding Home");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -47,6 +52,22 @@ public class MainActivity extends AppCompatActivity
         postRoomFragment = new PostRoomFragment();
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         cacPhongDaDangFragment = new CacPhongDaDangFragment();
+        cacPhongDaThichFragment = new CacPhongDaThichFragment();
+        gioiThieuFragment = new GioiThieuFragment();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if (cacPhongDaThichFragment.isAdded()) {
+            transaction.show(cacPhongDaThichFragment);
+        } else {
+            transaction.add(R.id.frameMain, cacPhongDaThichFragment);
+        }
+        for (Fragment x : fragmentManager.getFragments()) {
+            if (x != cacPhongDaThichFragment && x.isAdded()) {
+                transaction.hide(x);
+            }
+        }
+        transaction.commit();
 
     }
 
@@ -94,6 +115,17 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
 
         } else if (id == R.id.nav_likedRoom) {
+            if (cacPhongDaThichFragment.isAdded()) {
+                transaction.show(cacPhongDaThichFragment);
+            } else {
+                transaction.add(R.id.frameMain, cacPhongDaThichFragment);
+            }
+            for (Fragment x : fragmentManager.getFragments()) {
+                if (x != cacPhongDaThichFragment && x.isAdded()) {
+                    transaction.hide(x);
+                }
+            }
+            transaction.commit();
 
         } else if (id == R.id.nav_postRoom) {
             if (postRoomFragment.isAdded()) {
@@ -122,6 +154,17 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_gioithieu) {
+            if (gioiThieuFragment.isAdded()) {
+                transaction.show(gioiThieuFragment);
+            } else {
+                transaction.add(R.id.frameMain, gioiThieuFragment);
+            }
+            for (Fragment x : fragmentManager.getFragments()) {
+                if (x != gioiThieuFragment && x.isAdded()) {
+                    transaction.hide(x);
+                }
+            }
+            transaction.commit();
 
         } else if (id == R.id.nav_thoat) {
             final AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
