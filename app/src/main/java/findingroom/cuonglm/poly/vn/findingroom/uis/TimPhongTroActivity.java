@@ -22,7 +22,7 @@ public class TimPhongTroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tim_phong_tro);
+        setContentView(R.layout.fragment_tim_phong_tro);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_timphongtro);
         toolbar.setTitle("");
