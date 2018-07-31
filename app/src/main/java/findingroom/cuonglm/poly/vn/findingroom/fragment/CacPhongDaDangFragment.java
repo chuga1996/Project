@@ -3,7 +3,6 @@ package findingroom.cuonglm.poly.vn.findingroom.fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ public class CacPhongDaDangFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_cac_phong_da_dang,container,false);
+        View view = inflater.inflate(R.layout.fragment_cac_phong_da_dang,container,false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_cacphongdadang);
         phongTroList = new ArrayList<>();
         adapter = new CacPhongDaDangAdapter(phongTroList);

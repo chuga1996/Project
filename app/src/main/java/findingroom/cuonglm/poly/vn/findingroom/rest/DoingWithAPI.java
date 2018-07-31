@@ -232,35 +232,4 @@ public class DoingWithAPI {
         });
     }
 
-    public  static ArrayList<Categories> getCategories(Context context){
-        final ProgressDialog dialog = new ProgressDialog(context);
-        dialog.setMessage("Loading...");
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.show();
-        final ArrayList<Categories> list = new ArrayList<>();
-        Call<JsonElement> callGetCategories=RestClient2.getApiInterface().getCategories(40);
-        callGetCategories.enqueue(new Callback<JsonElement>() {
-            @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                JsonElement jsonElement = response.body();
-                JsonArray listCategories = jsonElement.getAsJsonArray();
-                for (int i = 0; i<listCategories.size();i++){
-                    JsonObject cateogory = listCategories.get(i).getAsJsonObject();
-
-                    int id  = cateogory.get("id").getAsInt();
-                    if (id != 1){
-                        String name = cateogory.get("name").getAsString();
-                        list.add(new Categories(id,name));
-
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<JsonElement> call, Throwable t) {
-            }
-        });
-        return list;
-    }
 }

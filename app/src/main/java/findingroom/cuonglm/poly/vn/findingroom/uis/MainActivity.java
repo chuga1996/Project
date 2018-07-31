@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +34,13 @@ public class MainActivity extends AppCompatActivity
     private CacPhongDaThichFragment cacPhongDaThichFragment;
     private GioiThieuFragment gioiThieuFragment;
     private View navHeader;
-
+    private String displayname,email;
+    TextView navDisplayName,navDisplayEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = getIntent();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Finding Home");
         setSupportActionBar(toolbar);
@@ -54,10 +56,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHeader = navigationView.getHeaderView(0);
-        TextView navDisplayName = navHeader.findViewById(R.id.navHeaderDisplayName);
-        TextView navDisplayEmail = navHeader.findViewById(R.id.navHeaderEmail);
-        navDisplayName.setText(intent.getStringExtra("displayname"));
-        navDisplayEmail.setText(intent.getStringExtra("email"));
+        navDisplayName = navHeader.findViewById(R.id.navHeaderDisplayName);
+        navDisplayEmail = navHeader.findViewById(R.id.navHeaderEmail);
+       if (savedInstanceState==null){
+           Intent intent = getIntent();
+           displayname =intent.getStringExtra("displayname");
+           email =intent.getStringExtra("email");
+       }
+        navDisplayName.setText(displayname);
+        navDisplayEmail.setText(email);
+
 
 
 
@@ -164,9 +172,7 @@ public class MainActivity extends AppCompatActivity
             dialog3.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(Intent.ACTION_MAIN);
-                    intent.addCategory(Intent.CATEGORY_HOME);
-                    startActivity(intent);
+                    System.exit(1);
                 }
             });
             dialog3.show();
@@ -176,4 +182,24 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("displayname",displayname);
+        outState.putString("email",email);
+        Log.e("displayname",displayname);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        displayname =savedInstanceState.getString("displayname");
+        email = savedInstanceState.getString("email");
+        navDisplayName.setText(displayname);
+        navDisplayEmail.setText(email);
+
+    }
+
+
 }
