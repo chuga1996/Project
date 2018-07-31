@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -19,33 +18,26 @@ import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
 import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
 import findingroom.cuonglm.poly.vn.findingroom.uis.UpdateRoomActivity;
 
-public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAdapter.ViewHolder> {
+public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHolder> {
     private List<PhongTro> phongTroList;
 
-    public CacPhongDaDangAdapter(List<PhongTro> phongTroList) {
+    public DanhSachAdapter(List<PhongTro> phongTroList) {
         this.phongTroList = phongTroList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DanhSachAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
         Context context = view.getContext();
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-
-
-        return new ViewHolder(view);
+        return new DanhSachAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final DanhSachAdapter.ViewHolder holder, final int position) {
         PhongTro phongTro = phongTroList.get(position);
         holder.imgHinhanhphongtro.setImageResource(phongTro.getmImg());
         holder.tvDiachi.setText(phongTro.getmDiaChi());
@@ -56,7 +48,7 @@ public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAd
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                context.startActivity(new Intent((Activity)context , UpdateRoomActivity.class));
+                context.startActivity(new Intent((Activity)context , DeitalActivity.class));
             }
         });
 
