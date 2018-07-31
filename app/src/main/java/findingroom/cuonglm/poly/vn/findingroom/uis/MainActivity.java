@@ -15,7 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
@@ -30,12 +32,13 @@ public class MainActivity extends AppCompatActivity
     private CacPhongDaDangFragment cacPhongDaDangFragment;
     private CacPhongDaThichFragment cacPhongDaThichFragment;
     private GioiThieuFragment gioiThieuFragment;
+    private View navHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Intent intent = getIntent();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Finding Home");
         setSupportActionBar(toolbar);
@@ -46,8 +49,17 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navHeader = navigationView.getHeaderView(0);
+        TextView navDisplayName = navHeader.findViewById(R.id.navHeaderDisplayName);
+        TextView navDisplayEmail = navHeader.findViewById(R.id.navHeaderEmail);
+        navDisplayName.setText(intent.getStringExtra("displayname"));
+        navDisplayEmail.setText(intent.getStringExtra("email"));
+
+
 
         postRoomFragment = new PostRoomFragment();
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
@@ -147,7 +159,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_thoat) {
             final AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
-            dialog3.setMessage("Bạn có chắc là muốn thoát");
+            dialog3.setTitle("Bạn có chắc là muốn thoát");
             dialog3.setCancelable(true);
             dialog3.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                 @Override

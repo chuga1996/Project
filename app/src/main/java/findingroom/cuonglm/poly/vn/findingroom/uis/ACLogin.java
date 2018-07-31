@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
+import findingroom.cuonglm.poly.vn.findingroom.rest.DoingWithAPI;
 
 public class ACLogin extends AppCompatActivity {
     private EditText edtUser;
@@ -40,7 +41,7 @@ public class ACLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 savingPreferent();
-                startActivity(new Intent(ACLogin.this, MainActivity.class));
+                DoingWithAPI.login(ACLogin.this, edtUser.getText().toString(),edtPassword.getText().toString());
             }
         });
 
@@ -72,4 +73,5 @@ public class ACLogin extends AppCompatActivity {
         }
         cbcheck.setChecked(check);
     }
+
 }

@@ -18,4 +18,10 @@ public interface ApiInterface {
                       @Query("user_pass") String user_pass,
                       @Query("display_name")String display_name,
                       @Query("description")String user_phone);
+
+
+    @GET("auth/generate_auth_cookie/")
+    Call<JsonElement> getCookieUser(@Query("nonce") String nonce,
+                                    @Query("username") String username,
+                                    @Query("password") String password);
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
+import findingroom.cuonglm.poly.vn.findingroom.rest.DoingWithAPI;
 
 public class PostRoomFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
     private Toolbar toolbarDeital;
@@ -97,6 +98,8 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), RESULT_LOAD_IMAGE);
                 break;
+            case R.id.btn_post_dpt:
+                DoingWithAPI.uploadPost("123123","abc","admin","admin");
         }
     }
 

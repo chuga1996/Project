@@ -2,10 +2,11 @@ package findingroom.cuonglm.poly.vn.findingroom.rest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,25 +17,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.X509TrustManager;
-
+import findingroom.cuonglm.poly.vn.findingroom.uis.MainActivity;
+import okhttp3.Credentials;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 public class DoingWithAPI {
 
     public static void registerUser(final Context context, final String user_name, final String name, final String pass, final String email, final String phone) {
-        String nonce;
+
 
         Call<JsonElement> callGetNonce = RestClient.getApiInterface().getNonce("user", "register");
 
@@ -52,7 +45,7 @@ public class DoingWithAPI {
                 callRegister.enqueue(new Callback<JsonElement>() {
                     @Override
                     public void onResponse(Call<JsonElement> call, Response<JsonElement> response2) {
-                        if (response2.isSuccessful()){
+                        if (response2.isSuccessful()) {
                             JsonElement jsonElement2 = response2.body();
                             JsonObject register = jsonElement2.getAsJsonObject();
                             String status = register.get("status").getAsString();
@@ -69,7 +62,7 @@ public class DoingWithAPI {
                                 });
                                 builder.show();
                             }
-                        }else{
+                        } else {
                             dialog.dismiss();
                             try {
                                 JSONObject errorObject = new JSONObject(response2.errorBody().string());
@@ -125,4 +118,102 @@ public class DoingWithAPI {
         });
     }
 
+    public static void login(final Context context, final String username, final String password) {
+
+        Call<JsonElement> callGetNonce = RestClient.getApiInterface().getNonce("auth", "generate_auth_cookie");
+        final ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Loading...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
+
+        callGetNonce.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, final Response<JsonElement> response) {
+                JsonElement jsonElement = response.body();
+                JsonObject getNonce = jsonElement.getAsJsonObject();
+                String nonce = getNonce.get("nonce").getAsString();
+                Call<JsonElement> callLogin = RestClient.getApiInterface().getCookieUser(nonce, username, password);
+                callLogin.enqueue(new Callback<JsonElement>() {
+                    @Override
+                    public void onResponse(Call<JsonElement> call, Response<JsonElement> response2) {
+                        dialog.dismiss();
+
+                        if (response2.isSuccessful()) {
+                            JsonElement jsonElement2 = response2.body();
+                            JsonObject login = jsonElement2.getAsJsonObject();
+                            String status = login.get("status").getAsString();
+
+                            if (status.equalsIgnoreCase("ok")) {
+
+                                String cookie = login.get("cookie").getAsString();
+                                JsonObject user = login.get("user").getAsJsonObject();
+                                String displaynName = user.get("displayname").getAsString();
+                                String email = user.get("email").getAsString();
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.putExtra("displayname", displaynName);
+                                intent.putExtra("email", email);
+                                intent.putExtra("username", username);
+                                intent.putExtra("password", password);
+                                context.startActivity(intent);
+                            } else {
+                                String error = login.get("error").getAsString();
+                                if (error.equalsIgnoreCase("Invalid username and/or password.")) {
+                                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                    builder.setTitle("Sai tên tài khoản hoặc mật khẩu");
+                                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    builder.show();
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonElement> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                Toast.makeText(context, "Không tải được", Toast.LENGTH_LONG).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+    public static void uploadPost(String title, String content, String username, String password) {
+        String auth = Credentials.basic(username, password);
+        Log.e("respone", auth);
+        Call<JsonElement> callUploadPost = RestClient2.getApiInterface().uploadPost(title, content, "publish", auth);
+        callUploadPost.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                Log.e("respone",response.isSuccessful()+"");
+                if (response.isSuccessful()){
+                    Log.e("respone",response.body().getAsString());
+                }else{
+                    try {
+                        JSONObject errorObject = new JSONObject(response.errorBody().string());
+                        Log.e("respone", errorObject.toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+
+            }
+        });
+    }
 }

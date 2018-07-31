@@ -9,7 +9,7 @@ import findingroom.cuonglm.poly.vn.findingroom.R;
 
 public class DeitalActivity extends AppCompatActivity {
 
-    @SuppressLint("ResourceAsColor")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +24,6 @@ public class DeitalActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        finish();
     }
 }
