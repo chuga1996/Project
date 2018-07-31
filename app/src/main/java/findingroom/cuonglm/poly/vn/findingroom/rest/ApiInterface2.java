@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -14,4 +15,6 @@ public interface ApiInterface2 {
                                  @Query("content") String content,
                                  @Query("status") String status,
                                  @Header("Authorization") String auth);
+    @GET("categories/")
+    Call<JsonElement> getCategories(@Query("per_page") int perpage);
 }

@@ -1,11 +1,17 @@
 package findingroom.cuonglm.poly.vn.findingroom.fragment;
 
+import android.app.Fragment;
+import android.content.ClipData;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +73,7 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
         img4Dpt = (ImageView) view.findViewById(R.id.img4_dpt);
         img5Dpt = (ImageView) view.findViewById(R.id.img5_dpt);
         img6Dpt = (ImageView) view.findViewById(R.id.img6_dpt);
-        edtDiachiDpt = (EditText) view.findViewById(R.id.edt_update_diachi_dpt);
+        edtDiachiDpt = (EditText) view.findViewById(R.id.edt_diachi_dpt);
         edtXaphuongDpt = (EditText) view.findViewById(R.id.edt_xaphuong_dpt);
         edtQuanhuyenDpt = (EditText) view.findViewById(R.id.edt_quanhuyen_dpt);
         edtGiaDpt = (EditText) view.findViewById(R.id.edt_gia_dpt);
@@ -99,30 +105,26 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            switch (requestCode) {
-                case RESULT_LOAD_IMAGE:
-                    if (resultCode == getActivity().RESULT_OK) {
-                        try {
-                            InputStream inputStream = getActivity().getContentResolver().openInputStream(data.getData());
-                            bitmap = BitmapFactory.decodeStream(inputStream);
-                            if (current < 6){
-                                imgList.get(current).setImageBitmap(bitmap);
-                                current++;
-                            }
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+        switch (requestCode) {
+            case RESULT_LOAD_IMAGE:
+                if (resultCode == getActivity().RESULT_OK) {
+                    try {
+                        InputStream inputStream = getActivity().getContentResolver().openInputStream(data.getData());
+                        bitmap = BitmapFactory.decodeStream(inputStream);
+                        if (current < 6){
+                            imgList.get(current).setImageBitmap(bitmap);
+                            current++;
                         }
-
-                    } else {
-                        Toast.makeText(getActivity(), "You haven't picked Image",
-                                Toast.LENGTH_LONG).show();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
 
-                    break;
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+                } else {
+                    Toast.makeText(getActivity(), "You haven't picked Image",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
 

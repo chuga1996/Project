@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -17,7 +18,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
+import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
 import findingroom.cuonglm.poly.vn.findingroom.uis.MainActivity;
 import okhttp3.Credentials;
 import retrofit2.Call;
@@ -188,16 +191,28 @@ public class DoingWithAPI {
     }
 
 
-    public static void uploadPost(String title, String content, String username, String password) {
+    public static void uploadPost(final Context context, String title, String content, String username, String password) {
         String auth = Credentials.basic(username, password);
-        Log.e("respone", auth);
+        final ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Loading...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
         Call<JsonElement> callUploadPost = RestClient2.getApiInterface().uploadPost(title, content, "publish", auth);
         callUploadPost.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                Log.e("respone",response.isSuccessful()+"");
                 if (response.isSuccessful()){
-                    Log.e("respone",response.body().getAsString());
+                    dialog.dismiss();
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Đăng thành công");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            ((Activity)context).finish();
+                        }
+                    });
+                    builder.show();
                 }else{
                     try {
                         JSONObject errorObject = new JSONObject(response.errorBody().string());
@@ -215,5 +230,37 @@ public class DoingWithAPI {
 
             }
         });
+    }
+
+    public  static ArrayList<Categories> getCategories(Context context){
+        final ProgressDialog dialog = new ProgressDialog(context);
+        dialog.setMessage("Loading...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
+        final ArrayList<Categories> list = new ArrayList<>();
+        Call<JsonElement> callGetCategories=RestClient2.getApiInterface().getCategories(40);
+        callGetCategories.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                JsonElement jsonElement = response.body();
+                JsonArray listCategories = jsonElement.getAsJsonArray();
+                for (int i = 0; i<listCategories.size();i++){
+                    JsonObject cateogory = listCategories.get(i).getAsJsonObject();
+
+                    int id  = cateogory.get("id").getAsInt();
+                    if (id != 1){
+                        String name = cateogory.get("name").getAsString();
+                        list.add(new Categories(id,name));
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+            }
+        });
+        return list;
     }
 }
