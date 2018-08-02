@@ -37,6 +37,7 @@ public class DoingWithAPI {
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Loading...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         callGetNonce.enqueue(new Callback<JsonElement>() {
             @Override
@@ -109,6 +110,7 @@ public class DoingWithAPI {
                     @Override
                     public void onFailure(Call<JsonElement> call, Throwable t) {
                         Toast.makeText(context, "Không tải được", Toast.LENGTH_LONG).show();
+                        t.printStackTrace();
                     }
                 });
             }
@@ -127,6 +129,7 @@ public class DoingWithAPI {
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Loading...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 
         callGetNonce.enqueue(new Callback<JsonElement>() {
@@ -152,7 +155,10 @@ public class DoingWithAPI {
                                 JsonObject user = login.get("user").getAsJsonObject();
                                 String displaynName = user.get("displayname").getAsString();
                                 String email = user.get("email").getAsString();
+                                int id  = user.get("id").getAsInt();
                                 Intent intent = new Intent(context, MainActivity.class);
+                                intent.putExtra("id",id);
+                                Log.e("idLogin", id+"");
                                 intent.putExtra("displayname", displaynName);
                                 intent.putExtra("email", email);
                                 intent.putExtra("username", username);
@@ -196,6 +202,7 @@ public class DoingWithAPI {
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Loading...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Call<JsonElement> callUploadPost = RestClient2.getApiInterface().uploadPost(title, content, "publish",categories, auth);
         callUploadPost.enqueue(new Callback<JsonElement>() {

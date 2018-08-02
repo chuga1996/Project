@@ -35,12 +35,14 @@ public class MainActivity extends AppCompatActivity
     private String displayname,email;
     TextView navDisplayName,navDisplayEmail;
     String username, password;
+    int idAuthor;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Finding Home");
         setSupportActionBar(toolbar);
 
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         navDisplayEmail = navHeader.findViewById(R.id.navHeaderEmail);
        if (savedInstanceState==null){
            Intent intent = getIntent();
+           idAuthor = intent.getIntExtra("id",0);
            displayname =intent.getStringExtra("displayname");
            email =intent.getStringExtra("email");
            username =intent.getStringExtra("username");
@@ -69,14 +72,8 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        Bundle bundle = new Bundle();
-        bundle.putString("username",username);
-        bundle.putString("password",password);
 
-        postRoomFragment = new PostRoomFragment();
-        postRoomFragment.setArguments(bundle);
-        frameLayout = (FrameLayout) findViewById(R.id.frameMain);
-        cacPhongDaDangFragment = new CacPhongDaDangFragment();
+
         gioiThieuFragment = new GioiThieuFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -92,7 +89,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         transaction.commit();
-
+        startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
     }
 
     @Override
@@ -113,7 +110,20 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         int id = item.getItemId();
+        Bundle bundlePostedroom = new Bundle();
+        bundlePostedroom.putInt("id",idAuthor);
+        cacPhongDaDangFragment = new CacPhongDaDangFragment();
+        cacPhongDaDangFragment.setArguments(bundlePostedroom);
 
+
+        Bundle bundle = new Bundle();
+        bundle.putString("username",username);
+        bundle.putString("password",password);
+        postRoomFragment = new PostRoomFragment();
+        postRoomFragment.setArguments(bundle);
+
+
+        frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         if (id == R.id.nav_find) {
             startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
 
@@ -128,6 +138,7 @@ public class MainActivity extends AppCompatActivity
                     transaction.hide(x);
                 }
             }
+            toolbar.setTitle("Đăng phòng trọ");
             transaction.commit();
 
         } else if (id == R.id.nav_postedRoom) {
@@ -141,6 +152,7 @@ public class MainActivity extends AppCompatActivity
                     transaction.hide(x);
                 }
             }
+            toolbar.setTitle("Các phòng đã đăng");
             transaction.commit();
 
         } else if (id == R.id.nav_gioithieu) {
@@ -154,6 +166,7 @@ public class MainActivity extends AppCompatActivity
                     transaction.hide(x);
                 }
             }
+            toolbar.setTitle("Giới thiệu");
             transaction.commit();
 
         } else if (id == R.id.nav_thoat) {
@@ -168,15 +181,17 @@ public class MainActivity extends AppCompatActivity
             });
             dialog3.show();
         }
-
+        item.setCheckable(false);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt("id",idAuthor);
         outState.putString("displayname",displayname);
         outState.putString("email",email);
         outState.putString("username",username);
@@ -191,10 +206,15 @@ public class MainActivity extends AppCompatActivity
         email = savedInstanceState.getString("email");
         username = savedInstanceState.getString("username");
         password = savedInstanceState.getString("password");
+        idAuthor = savedInstanceState.getInt("id");
         navDisplayName.setText(displayname);
         navDisplayEmail.setText(email);
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        postRoomFragment.onActivityResult(requestCode, resultCode, data);
+    }
 }

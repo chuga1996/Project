@@ -1,6 +1,7 @@
 package findingroom.cuonglm.poly.vn.findingroom.rest;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -28,5 +29,13 @@ public interface ApiInterface2 {
 
     @GET("posts/")
     Call<JsonElement> getPostsByCategory(@Query("categories") int idCategory);
+
+    @Multipart
+    @POST("media/")
+    Call<JsonElement> uploadImage(@Header("Authorization") String auth, @Part MultipartBody.Part file);
+
+    @GET("posts/")
+    Call<JsonElement> getPostsByAuthor(@Query("author") int idAuthor);
+
 
 }

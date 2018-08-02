@@ -3,52 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<android.support.design.widget.AppBarLayout
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.GioiThieuFragment">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/collapsingToolbar"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="Finding Room"
+            app:titleTextColor="#00f">
 
 
-</android.support.design.widget.AppBarLayout>
+
+            <ImageView
+                android:src="@drawable/room"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax"/>
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/toolbar"
+
+                app:layout_collapseMode="pin">
+
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/content"
-            android:textSize="20dp"
+            android:textSize="14sp"
             android:textColor="#000"/>
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.design.widget.CollapsingToolbarLayout
-        android:id="@+id/collapsingToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        app:contentScrim="@color/colorPrimary"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-        app:title="GIỚI THIỆU">
-
-
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginLeft="100dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo"
-            app:layout_collapseMode="parallax" />
-
-
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-
-            app:layout_collapseMode="pin">
-
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.CollapsingToolbarLayout>
 </android.support.design.widget.CoordinatorLayout>

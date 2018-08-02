@@ -12,50 +12,55 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
+import findingroom.cuonglm.poly.vn.findingroom.model.Room;
 import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
 
 public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAdapter.ViewHolder> {
-    private List<PhongTro> phongTroList;
-
-    public CacPhongDaDangAdapter(List<PhongTro> phongTroList) {
-        this.phongTroList = phongTroList;
+    private List<Room> roomList;
+    Context context;
+    public CacPhongDaDangAdapter(List<Room> roomList) {
+        this.roomList = roomList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CacPhongDaDangAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
-        Context context = view.getContext();
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
+        context= view.getContext();
 
 
-        return new ViewHolder(view);
+        return new CacPhongDaDangAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        PhongTro phongTro = phongTroList.get(position);
-        holder.imgHinhanhphongtro.setImageResource(phongTro.getmImg());
-        holder.tvDiachi.setText(phongTro.getmDiaChi());
-        holder.tvSonguoi.setText(phongTro.getmSoNguoi());
-        holder.tvGia.setText(phongTro.getmGia());
+    public void onBindViewHolder(@NonNull final CacPhongDaDangAdapter.ViewHolder holder, final int position) {
+        Room room = roomList.get(position);
+//        holder.imgHinhanhphongtro.setImageResource(room.getmImg());
+        holder.tvDiachi.setText(room.getFullAddress());
+        holder.tvSonguoi.setText("Số người: "+ room.getPeople()+" người/phòng");
+        holder.tvGia.setText("Giá: "+ room.getPrice() +" đ");
+        Glide.with(context)
+                .load(room.getImgResource())
+                .into(holder.imgHinhanhphongtro);
 
         holder.tvChitiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                context.startActivity(new Intent((Activity)context , DeitalActivity.class));
+                Intent intent = new Intent((Activity)context , DeitalActivity.class);
+                intent.putExtra("address", roomList.get(position).getAddress());
+                intent.putExtra("district", roomList.get(position).getDistrict());
+                intent.putExtra("price", roomList.get(position).getPrice()+"");
+                intent.putExtra("people", roomList.get(position).getPeople()+"");
+                intent.putExtra("phone", roomList.get(position).getPhone()+"");
+                context.startActivity(intent);
             }
         });
 
@@ -63,7 +68,7 @@ public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAd
 
     @Override
     public int getItemCount() {
-        return phongTroList.size();
+        return roomList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

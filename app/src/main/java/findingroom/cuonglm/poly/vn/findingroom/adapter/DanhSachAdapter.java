@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
@@ -20,7 +22,7 @@ import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
 
 public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHolder> {
     private List<Room> roomList;
-
+    Context context;
     public DanhSachAdapter(List<Room> roomList) {
         this.roomList = roomList;
     }
@@ -30,12 +32,12 @@ public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHo
     public DanhSachAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
-        Context context = view.getContext();
+        context= view.getContext();
 
 
         return new DanhSachAdapter.ViewHolder(view);
     }
-
+    
     @Override
     public void onBindViewHolder(@NonNull final DanhSachAdapter.ViewHolder holder, final int position) {
         Room room = roomList.get(position);
@@ -43,6 +45,9 @@ public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHo
         holder.tvDiachi.setText(room.getFullAddress());
         holder.tvSonguoi.setText("Số người: "+ room.getPeople()+" người/phòng");
         holder.tvGia.setText("Giá: "+ room.getPrice() +" đ");
+        Glide.with(context)
+                .load(room.getImgResource())
+                .into(holder.imgHinhanhphongtro);
 
         holder.tvChitiet.setOnClickListener(new View.OnClickListener() {
             @Override

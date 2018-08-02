@@ -25,8 +25,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.alhazmy13.mediapicker.Image.ImagePicker;
+
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +40,10 @@ import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
 import findingroom.cuonglm.poly.vn.findingroom.rest.DoingWithAPI;
 import findingroom.cuonglm.poly.vn.findingroom.rest.RestClient2;
+import okhttp3.Credentials;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +64,8 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
     private static final int RESULT_LOAD_IMAGE = 100;
     private int current = 0;
     String username, password;
+    String link;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -84,66 +96,58 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
         Bundle bundle = getArguments();
         username = bundle.getString("username");
         password = bundle.getString("password");
-         }
-
+    }
+    int price;
+    int people;
+    String address,district;
+    String phone;
+    int idCategory = 1;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_upload_image_dpt:
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
+                new ImagePicker.Builder(getActivity())
+                        .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
+                        .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+                        .directory(ImagePicker.Directory.DEFAULT)
+                        .extension(ImagePicker.Extension.PNG)
+                        .scale(600, 600)
+                        .allowMultipleImages(false)
+                        .enableDebuggingMode(true)
+                        .build();
                 break;
             case R.id.btn_post_dpt:
-                if (edtDiachiDpt.getText().toString().isEmpty()&&edtGiaDpt.getText().toString().isEmpty()&&edtSodienthoaiDpt.getText().toString().isEmpty()&&edtSonguoiDpt.getText().toString().isEmpty()){
-                    Toast.makeText(getContext(),"Không để trống các ô",Toast.LENGTH_LONG).show();
-                }else{
-                    int idCategory=1;
-                    String address = edtDiachiDpt.getText().toString();
-                    String district =spnQuanhuyenDpt.getSelectedItem().toString();
-                    for (int i=0; i<list.size();i++){
-                        if (list.get(i).getName().equalsIgnoreCase(district)){
+                if (edtDiachiDpt.getText().toString().isEmpty() && edtGiaDpt.getText().toString().isEmpty() && edtSodienthoaiDpt.getText().toString().isEmpty() && edtSonguoiDpt.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "Không để trống các ô", Toast.LENGTH_LONG).show();
+                } else {
+
+                   address = edtDiachiDpt.getText().toString();
+                   district = spnQuanhuyenDpt.getSelectedItem().toString();
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).getName().equalsIgnoreCase(district)) {
                             idCategory = list.get(i).getId();
                         }
                     }
-                    int price = Integer.parseInt(edtGiaDpt.getText().toString());
-                    int people = Integer.parseInt(edtSonguoiDpt.getText().toString());
-                    String phone = edtSodienthoaiDpt.getText().toString();
+                  price = Integer.parseInt(edtGiaDpt.getText().toString());
+                    people = Integer.parseInt(edtSonguoiDpt.getText().toString());
+                    phone = edtSodienthoaiDpt.getText().toString();
+                    uploadImage();
 
-                    String content = "{\"price\":"+price+",\"people\":"+people+",\"image\":\""+"http://google.com"+"\",\"phone\":\""+phone+"\"}";
-                    DoingWithAPI.uploadPost(getContext(), address, content, username, password,idCategory);
                 }
 
         }
     }
 
+    String pathFile;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case RESULT_LOAD_IMAGE:
-                if (resultCode == getActivity().RESULT_OK) {
-                    try {
-                        InputStream inputStream = getActivity().getContentResolver().openInputStream(data.getData());
-                        bitmap = BitmapFactory.decodeStream(inputStream);
-                        if (current < 6) {
-                            imgList.get(current).setImageBitmap(bitmap);
-                            current++;
-                        }
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                } else {
-                    Toast.makeText(getActivity(), "You haven't picked Image",
-                            Toast.LENGTH_LONG).show();
-                }
-
-                break;
+        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
+            List<String> mPaths = (List<String>) data.getSerializableExtra(ImagePicker.EXTRA_IMAGE_PATH);
+            pathFile = mPaths.get(0);
+            Bitmap myBitmap = BitmapFactory.decodeFile(pathFile);
+            img1Dpt.setImageBitmap(myBitmap);
         }
-        super.onActivityResult(requestCode, resultCode, data);
-
     }
 
     ArrayList<Categories> list;
@@ -173,7 +177,7 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
                 for (int i = 0; i < list.size(); i++) {
                     listString.add(list.get(i).toString());
                 }
-                Log.e("list2", list.size()+"");
+                Log.e("list2", list.size() + "");
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listString);
                 spnQuanhuyenDpt.setAdapter(adapter);
 
@@ -194,5 +198,31 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
                 t.printStackTrace();
             }
         });
+    }
+
+    public void uploadImage() {
+        String auth = Credentials.basic(username, password);
+        File file = new File(pathFile);
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse(pathFile), file);
+        Log.e("path",pathFile);
+        MultipartBody.Part uploadPart =
+                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        Call<JsonElement> callUploadImage = RestClient2.getApiInterface().uploadImage(auth, uploadPart);
+        callUploadImage.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                JsonObject image = response.body().getAsJsonObject();
+                link = image.get("guid").getAsJsonObject().get("rendered").getAsString();
+                String content = "{\"price\":" + price + ",\"people\":" + people + ",\"image\":\"" + link + "\",\"phone\":\"" + phone + "\"}";
+                DoingWithAPI.uploadPost(getContext(), address, content, username, password, idCategory);
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
     }
 }
