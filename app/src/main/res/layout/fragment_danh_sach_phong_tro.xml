@@ -8,54 +8,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:padding="16dp"
-        android:orientation="vertical">
 
-        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="#fff">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quận"
+            android:paddingRight="8dp"
+            android:textColor="#000"
+            android:textSize="18dp"/>
+        <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:id="@+id/filterDistrict"
+            android:padding="4dp">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Quận/Huyện"/>
-
-            <Spinner
-                android:id="@+id/spn_quanhuyen"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"></Spinner>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:text="Xã/Phường"/>
-
-            <Spinner
-                android:id="@+id/spn_xaphuong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"></Spinner>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_timkiem"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="@drawable/ic_search_black_24dp" />
-
+        </Spinner>
     </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_danhsach"
         android:layout_width="match_parent"

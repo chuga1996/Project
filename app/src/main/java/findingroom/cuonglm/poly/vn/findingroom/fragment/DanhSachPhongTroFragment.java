@@ -1,11 +1,16 @@
 package findingroom.cuonglm.poly.vn.findingroom.fragment;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,87 +19,149 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.adapter.CacPhongDaDangAdapter;
 import findingroom.cuonglm.poly.vn.findingroom.adapter.DanhSachAdapter;
+import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
 import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
+import findingroom.cuonglm.poly.vn.findingroom.model.Room;
+import findingroom.cuonglm.poly.vn.findingroom.rest.DoingWithAPI;
+import findingroom.cuonglm.poly.vn.findingroom.rest.RestClient2;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DanhSachPhongTroFragment extends Fragment {
     private RecyclerView recyclerView;
     private DanhSachAdapter adapter;
-    private List<PhongTro> phongTroList;
-    private Spinner spnQuanhuyen;
-    private Spinner spnXaphuong;
-    private String []quanhuyenlist = {"Hà Nội" , "Đà Nẵng" , "TP HCM", "Cà Mau"};
-    private String []xaphuonglist = {"Hoàn Kiếm" , "Tây Hồ" , "Nam Từ Liêm", "Hà Đông"};
+    private Spinner filterDistrict;
 
+    ArrayList<Room> listRoom;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_danh_sach_phong_tro,container,false);
+        View view = inflater.inflate(R.layout.fragment_danh_sach_phong_tro, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_danhsach);
-        phongTroList = new ArrayList<>();
-        adapter = new DanhSachAdapter(phongTroList);
-        spnQuanhuyen = (Spinner) view.findViewById(R.id.spn_quanhuyen);
-        spnXaphuong = (Spinner) view.findViewById(R.id.spn_xaphuong);
-
-        ArrayAdapter<String> adapterspnQH = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, quanhuyenlist);
-        adapterspnQH.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-
-        ArrayAdapter<String> adapterspnXP = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, xaphuonglist);
-        adapterspnXP.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
-
-        spnQuanhuyen.setAdapter(adapterspnQH);
-        spnXaphuong.setAdapter(adapterspnXP);
-
-        spnQuanhuyen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection = quanhuyenlist[position];
-                Toast.makeText(getActivity(), selection+"", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spnXaphuong.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selection1 = xaphuonglist[position];
-                Toast.makeText(getActivity(), selection1+"", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        listRoom = new ArrayList<>();
+        adapter = new DanhSachAdapter(listRoom);
+        filterDistrict = view.findViewById(R.id.filterDistrict);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        fakeData();
 
+        getCategories();
 
         return view;
     }
 
+    ArrayList<Categories> listCategory;
+    ProgressDialog dialog;
 
-    private void fakeData(){
-        for (int i = 0 ; i < 40;i++){
-            PhongTro phongTro = new PhongTro(R.drawable.ic_launcher_background,"30 Ham Nghi, My Dinh","20","200.000");
-            phongTroList.add(phongTro);
-        }
-        adapter.notifyDataSetChanged();
+    public void getCategories() {
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Loading...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.show();
+        listCategory = new ArrayList<>();
+        Call<JsonElement> callGetCategories = RestClient2.getApiInterface().getCategories(40);
+        callGetCategories.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                JsonElement jsonElement = response.body();
+                JsonArray listCategories = jsonElement.getAsJsonArray();
+                for (int i = 0; i < listCategories.size(); i++) {
+                    JsonObject cateogory = listCategories.get(i).getAsJsonObject();
+
+                    int id = cateogory.get("id").getAsInt();
+                    if (id != 1) {
+                        String name = cateogory.get("name").getAsString();
+                        listCategory.add(new Categories(id, name));
+                    }
+                }
+                ArrayList<String> listString = new ArrayList<>();
+                for (int i = 0; i < listCategory.size(); i++) {
+                    listString.add(listCategory.get(i).toString());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listString);
+                filterDistrict.setAdapter(adapter);
+                getRoomList();
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Không tải được");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+
+    private void getRoomList() {
+        Call<JsonElement> callGetAllRoom = RestClient2.getApiInterface().getPosts();
+        callGetAllRoom.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                JsonArray listPost = response.body().getAsJsonArray();
+                for (int i = 0; i < listPost.size(); i++) {
+                    try {
+                        JsonObject post = listPost.get(i).getAsJsonObject();
+                        String address = post.get("title").getAsJsonObject().get("rendered").getAsString();
+                        String district = "";
+                        int idDistrict = post.get("categories").getAsJsonArray().get(0).getAsInt();
+                        for (int j = 0; j < listCategory.size(); j++) {
+                            if (idDistrict == listCategory.get(j).getId()) {
+                                district = listCategory.get(j).getName();
+
+                            }
+                        }
+                        String content = post.get("content").getAsJsonObject().get("rendered").getAsString();
+                        content = content.replaceAll("(?s)<[^>]*>(\\s*<[^>]*>)*", " ");
+                        String news = Html.fromHtml(content).toString();
+                        news= news.replace('“','"');
+                        news=news.replace('”','"');
+                        news=news.replace('″','"');
+                        news = news.trim();
+                        JSONObject jsonObject = new JSONObject(news);
+
+                        int price = jsonObject.getInt("price");
+                        int people  = jsonObject.getInt("people");
+                        String image =jsonObject.getString("image");
+                        String phone = jsonObject.getString("phone");
+                        Room room = new Room(address,district, price,people,phone,image);
+                        listRoom.add(room);
+                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                dialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+
+            }
+        });
     }
 }

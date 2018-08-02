@@ -13,10 +13,11 @@ import android.view.View;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.DanhSachPhongTroFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
 
 public class TimPhongTroActivity extends AppCompatActivity {
-    private findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment CacPhongDaDangFragment;
+    private DanhSachPhongTroFragment danhSachPhongTroFragment;
     private MapsFragment mapsFragment;
     private BottomNavigationView bottomNavigationView;
 
@@ -35,16 +36,16 @@ public class TimPhongTroActivity extends AppCompatActivity {
             }
         });
 
-        CacPhongDaDangFragment = new CacPhongDaDangFragment();
+        danhSachPhongTroFragment = new DanhSachPhongTroFragment();
         mapsFragment = new MapsFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        if (CacPhongDaDangFragment.isAdded()) {
-            transaction.show(CacPhongDaDangFragment);
+        if (danhSachPhongTroFragment.isAdded()) {
+            transaction.show(danhSachPhongTroFragment);
         } else {
-            transaction.add(R.id.frameTimPhong, CacPhongDaDangFragment);
+            transaction.add(R.id.frameTimPhong, danhSachPhongTroFragment);
 
         }
         transaction.commit();
@@ -60,10 +61,10 @@ public class TimPhongTroActivity extends AppCompatActivity {
                         if (mapsFragment.isVisible()){
                             transaction.hide(mapsFragment);
                         }
-                        if (CacPhongDaDangFragment.isAdded()) {
-                            transaction.show(CacPhongDaDangFragment);
+                        if (danhSachPhongTroFragment.isAdded()) {
+                            transaction.show(danhSachPhongTroFragment);
                         } else {
-                            transaction.add(R.id.frameTimPhong, CacPhongDaDangFragment);
+                            transaction.add(R.id.frameTimPhong, danhSachPhongTroFragment);
 
                         }
 
@@ -71,8 +72,8 @@ public class TimPhongTroActivity extends AppCompatActivity {
                         break;
 
                     case R.id.bottmMap:
-                        if (CacPhongDaDangFragment.isVisible()){
-                            transaction.hide(CacPhongDaDangFragment);
+                        if (danhSachPhongTroFragment.isVisible()){
+                            transaction.hide(danhSachPhongTroFragment);
                         }
                         if (mapsFragment.isAdded()) {
                             transaction.show(mapsFragment);

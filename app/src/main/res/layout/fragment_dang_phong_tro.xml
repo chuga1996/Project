@@ -77,31 +77,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:text="Xã/Phường"
-                    android:textColor="#818480"
-                    android:textSize="14dp" />
-
-                <EditText
-                    android:id="@+id/edt_xaphuong_dpt"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@+id/edt_diachi_dpt"
-                    android:background="@drawable/duongvien_goctron"
-                    android:paddingLeft="10dp"
-                    android:textColor="#818480"
-                    android:textSize="16dp" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

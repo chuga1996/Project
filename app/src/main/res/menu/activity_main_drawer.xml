@@ -8,10 +8,7 @@
             android:id="@+id/nav_find"
             android:icon="@drawable/ic_action_search"
             android:title="Tìm phòng trọ" />
-        <item
-            android:id="@+id/nav_likedRoom"
-            android:icon="@drawable/ic_action_like"
-            android:title="Các phòng trọ đã thích" />
+
         <item
             android:id="@+id/nav_postRoom"
             android:icon="@drawable/ic_add"

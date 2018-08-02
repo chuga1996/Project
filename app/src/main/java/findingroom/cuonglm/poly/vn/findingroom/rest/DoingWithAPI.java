@@ -191,13 +191,13 @@ public class DoingWithAPI {
     }
 
 
-    public static void uploadPost(final Context context, String title, String content, String username, String password) {
+    public static void uploadPost(final Context context, String title, String content, String username, String password, int categories) {
         String auth = Credentials.basic(username, password);
         final ProgressDialog dialog = new ProgressDialog(context);
         dialog.setMessage("Loading...");
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.show();
-        Call<JsonElement> callUploadPost = RestClient2.getApiInterface().uploadPost(title, content, "publish", auth);
+        Call<JsonElement> callUploadPost = RestClient2.getApiInterface().uploadPost(title, content, "publish",categories, auth);
         callUploadPost.enqueue(new Callback<JsonElement>() {
             @Override
             public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
@@ -209,7 +209,6 @@ public class DoingWithAPI {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
-                            ((Activity)context).finish();
                         }
                     });
                     builder.show();

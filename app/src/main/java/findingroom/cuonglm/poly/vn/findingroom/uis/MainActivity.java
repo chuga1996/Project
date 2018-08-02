@@ -13,8 +13,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
-import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaThichFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.GioiThieuFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.PostRoomFragment;
 
@@ -31,11 +30,11 @@ public class MainActivity extends AppCompatActivity
     private FrameLayout frameLayout;
     private PostRoomFragment postRoomFragment;
     private CacPhongDaDangFragment cacPhongDaDangFragment;
-    private CacPhongDaThichFragment cacPhongDaThichFragment;
     private GioiThieuFragment gioiThieuFragment;
     private View navHeader;
     private String displayname,email;
     TextView navDisplayName,navDisplayEmail;
+    String username, password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,28 +61,33 @@ public class MainActivity extends AppCompatActivity
            Intent intent = getIntent();
            displayname =intent.getStringExtra("displayname");
            email =intent.getStringExtra("email");
+           username =intent.getStringExtra("username");
+           password =intent.getStringExtra("password");
        }
         navDisplayName.setText(displayname);
         navDisplayEmail.setText(email);
 
 
 
+        Bundle bundle = new Bundle();
+        bundle.putString("username",username);
+        bundle.putString("password",password);
 
         postRoomFragment = new PostRoomFragment();
+        postRoomFragment.setArguments(bundle);
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         cacPhongDaDangFragment = new CacPhongDaDangFragment();
-        cacPhongDaThichFragment = new CacPhongDaThichFragment();
         gioiThieuFragment = new GioiThieuFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (cacPhongDaThichFragment.isAdded()) {
-            transaction.show(cacPhongDaThichFragment);
+        if (gioiThieuFragment.isAdded()) {
+            transaction.show(gioiThieuFragment);
         } else {
-            transaction.add(R.id.frameMain, cacPhongDaThichFragment);
+            transaction.add(R.id.frameMain, gioiThieuFragment);
         }
         for (Fragment x : fragmentManager.getFragments()) {
-            if (x != cacPhongDaThichFragment && x.isAdded()) {
+            if (x != gioiThieuFragment && x.isAdded()) {
                 transaction.hide(x);
             }
         }
@@ -112,19 +116,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_find) {
             startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
-
-        } else if (id == R.id.nav_likedRoom) {
-            if (cacPhongDaThichFragment.isAdded()) {
-                transaction.show(cacPhongDaThichFragment);
-            } else {
-                transaction.add(R.id.frameMain, cacPhongDaThichFragment);
-            }
-            for (Fragment x : fragmentManager.getFragments()) {
-                if (x != cacPhongDaThichFragment && x.isAdded()) {
-                    transaction.hide(x);
-                }
-            }
-            transaction.commit();
 
         } else if (id == R.id.nav_postRoom) {
             if (postRoomFragment.isAdded()) {
@@ -188,6 +179,8 @@ public class MainActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
         outState.putString("displayname",displayname);
         outState.putString("email",email);
+        outState.putString("username",username);
+        outState.putString("password",password);
         Log.e("displayname",displayname);
     }
 
@@ -196,6 +189,8 @@ public class MainActivity extends AppCompatActivity
         super.onRestoreInstanceState(savedInstanceState);
         displayname =savedInstanceState.getString("displayname");
         email = savedInstanceState.getString("email");
+        username = savedInstanceState.getString("username");
+        password = savedInstanceState.getString("password");
         navDisplayName.setText(displayname);
         navDisplayEmail.setText(email);
 

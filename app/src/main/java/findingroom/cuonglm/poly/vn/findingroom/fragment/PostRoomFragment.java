@@ -43,7 +43,6 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
     List<ImageView> imgList;
     private ImageView img1Dpt;
     private EditText edtDiachiDpt;
-    private EditText edtXaphuongDpt;
     private Spinner spnQuanhuyenDpt;
     private EditText edtGiaDpt;
     private EditText edtSonguoiDpt;
@@ -54,7 +53,7 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
     private Bitmap bitmap;
     private static final int RESULT_LOAD_IMAGE = 100;
     private int current = 0;
-
+    String username, password;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -68,7 +67,6 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
     public void widget(View view) {
         img1Dpt = (ImageView) view.findViewById(R.id.img1_dpt);
         edtDiachiDpt = (EditText) view.findViewById(R.id.edt_diachi_dpt);
-        edtXaphuongDpt = (EditText) view.findViewById(R.id.edt_xaphuong_dpt);
         spnQuanhuyenDpt = (Spinner) view.findViewById(R.id.spinner_quanhuyen_dpt);
         edtGiaDpt = (EditText) view.findViewById(R.id.edt_gia_dpt);
         edtSonguoiDpt = (EditText) view.findViewById(R.id.edt_songuoi_dpt);
@@ -83,8 +81,10 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
         list = new ArrayList<>();
 
         getCategories();
-
-    }
+        Bundle bundle = getArguments();
+        username = bundle.getString("username");
+        password = bundle.getString("password");
+         }
 
     @Override
     public void onClick(View v) {
@@ -97,14 +97,25 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), RESULT_LOAD_IMAGE);
                 break;
             case R.id.btn_post_dpt:
-                String address = edtDiachiDpt.getText().toString() + ", " + edtXaphuongDpt.getText().toString();
-//                String district =
-                String price = edtGiaDpt.getText().toString();
-                int people = Integer.parseInt(edtSonguoiDpt.getText().toString());
-                String phone = edtSodienthoaiDpt.getText().toString();
+                if (edtDiachiDpt.getText().toString().isEmpty()&&edtGiaDpt.getText().toString().isEmpty()&&edtSodienthoaiDpt.getText().toString().isEmpty()&&edtSonguoiDpt.getText().toString().isEmpty()){
+                    Toast.makeText(getContext(),"Không để trống các ô",Toast.LENGTH_LONG).show();
+                }else{
+                    int idCategory=1;
+                    String address = edtDiachiDpt.getText().toString();
+                    String district =spnQuanhuyenDpt.getSelectedItem().toString();
+                    for (int i=0; i<list.size();i++){
+                        if (list.get(i).getName().equalsIgnoreCase(district)){
+                            idCategory = list.get(i).getId();
+                        }
+                    }
+                    int price = Integer.parseInt(edtGiaDpt.getText().toString());
+                    int people = Integer.parseInt(edtSonguoiDpt.getText().toString());
+                    String phone = edtSodienthoaiDpt.getText().toString();
 
-                String content = "{\"district\":1,\"price\":2000000,\"people\":3,\"image\":[{\"link\":\"google.com.vn\"},{\"link\":\"asdasc.acasc\"}],\"phone\":\"01646100980\"}";
-                DoingWithAPI.uploadPost(getContext(), "address", "abc", "admin", "admin");
+                    String content = "{\"price\":"+price+",\"people\":"+people+",\"image\":\""+"http://google.com"+"\",\"phone\":\""+phone+"\"}";
+                    DoingWithAPI.uploadPost(getContext(), address, content, username, password,idCategory);
+                }
+
         }
     }
 

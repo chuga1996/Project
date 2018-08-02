@@ -15,21 +15,21 @@ import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
+import findingroom.cuonglm.poly.vn.findingroom.model.Room;
 import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
-import findingroom.cuonglm.poly.vn.findingroom.uis.UpdateRoomActivity;
 
 public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHolder> {
-    private List<PhongTro> phongTroList;
+    private List<Room> roomList;
 
-    public DanhSachAdapter(List<PhongTro> phongTroList) {
-        this.phongTroList = phongTroList;
+    public DanhSachAdapter(List<Room> roomList) {
+        this.roomList = roomList;
     }
 
     @NonNull
     @Override
     public DanhSachAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
+        View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
         Context context = view.getContext();
 
 
@@ -38,17 +38,23 @@ public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull final DanhSachAdapter.ViewHolder holder, final int position) {
-        PhongTro phongTro = phongTroList.get(position);
-        holder.imgHinhanhphongtro.setImageResource(phongTro.getmImg());
-        holder.tvDiachi.setText(phongTro.getmDiaChi());
-        holder.tvSonguoi.setText(phongTro.getmSoNguoi());
-        holder.tvGia.setText(phongTro.getmGia());
+        Room room = roomList.get(position);
+//        holder.imgHinhanhphongtro.setImageResource(room.getmImg());
+        holder.tvDiachi.setText(room.getFullAddress());
+        holder.tvSonguoi.setText("Số người: "+ room.getPeople()+" người/phòng");
+        holder.tvGia.setText("Giá: "+ room.getPrice() +" đ");
 
         holder.tvChitiet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                context.startActivity(new Intent((Activity)context , DeitalActivity.class));
+                Intent intent = new Intent((Activity)context , DeitalActivity.class);
+                intent.putExtra("address", roomList.get(position).getAddress());
+                intent.putExtra("district", roomList.get(position).getDistrict());
+                intent.putExtra("price", roomList.get(position).getPrice()+"");
+                intent.putExtra("people", roomList.get(position).getPeople()+"");
+                intent.putExtra("phone", roomList.get(position).getPhone()+"");
+                context.startActivity(intent);
             }
         });
 
@@ -56,7 +62,7 @@ public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return phongTroList.size();
+        return roomList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
