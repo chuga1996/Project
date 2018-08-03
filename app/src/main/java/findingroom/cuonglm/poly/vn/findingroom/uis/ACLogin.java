@@ -1,10 +1,11 @@
 package findingroom.cuonglm.poly.vn.findingroom.uis;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,6 +21,7 @@ public class ACLogin extends AppCompatActivity {
     private Button btnLogin;
     private TextView tvSignup;
     private CheckBox cbcheck;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,9 @@ public class ACLogin extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btn_login);
         cbcheck=(CheckBox) findViewById(R.id.cbcheck);
         tvSignup = (TextView) findViewById(R.id.tv_signup);
+        context = ACLogin.this;
         restoringPreferent();
+
         tvSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,7 +45,13 @@ public class ACLogin extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 savingPreferent();
-                DoingWithAPI.login(ACLogin.this, edtUser.getText().toString(),edtPassword.getText().toString());
+                if (TextUtils.isEmpty(edtUser.getText().toString())){
+                    edtUser.setError("Vui lòng nhập thông tin tài khoản");
+                }else if (TextUtils.isEmpty(edtPassword.getText().toString())){
+                    edtPassword.setError("Vui lòng nhập mật khẩu");
+                }else {
+                    DoingWithAPI.login(ACLogin.this,edtUser.getText().toString() ,edtPassword.getText().toString());
+                }
             }
         });
 

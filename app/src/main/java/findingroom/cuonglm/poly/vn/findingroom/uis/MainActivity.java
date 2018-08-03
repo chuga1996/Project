@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
@@ -92,13 +93,18 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
     }
 
+    private boolean flag = true;
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if (flag == false){
             super.onBackPressed();
+        } else {
+            flag = false;
+            Toast.makeText(this, "Nhấn back thêm một lần nữa để thoát", Toast.LENGTH_SHORT).show();
         }
     }
 

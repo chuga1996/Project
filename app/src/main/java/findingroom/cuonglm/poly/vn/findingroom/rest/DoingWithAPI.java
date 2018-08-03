@@ -164,6 +164,7 @@ public class DoingWithAPI {
                                 intent.putExtra("username", username);
                                 intent.putExtra("password", password);
                                 context.startActivity(intent);
+                                ((Activity) context).finish();
                             } else {
                                 String error = login.get("error").getAsString();
                                 if (error.equalsIgnoreCase("Invalid username and/or password.")) {

@@ -41,17 +41,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (progressDialog == null){
             progressDialog = new ProgressDialog(BaseActivity.this);
             progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.show();
         }
 
     }
 
-    public void closeProgressDialog(){
-        if (progressDialog != null){
-            progressDialog.setCancelable(false);
-            progressDialog.dismiss();
-        }
-    }
+
 
     public void loadImages(){
 
