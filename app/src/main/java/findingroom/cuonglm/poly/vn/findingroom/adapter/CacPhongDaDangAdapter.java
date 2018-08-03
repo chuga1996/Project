@@ -55,6 +55,7 @@ public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAd
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent((Activity)context , DeitalActivity.class);
+//                intent.putExtra("imageresource", roomList.get(position).getImgResource());
                 intent.putExtra("address", roomList.get(position).getAddress());
                 intent.putExtra("district", roomList.get(position).getDistrict());
                 intent.putExtra("price", roomList.get(position).getPrice()+"");
