@@ -7,17 +7,17 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_maps_fragment">Map</string>
+    <string name="title_activity_maps_fragment">Bản đồ</string>
     <string name="app_name1">Giới thiệu</string>
     <string name="content">
         - Phần mềm Finding Room là phần mềm trên điện thoại di động thông minh
     sử dụng hệ điều hành Android.\n
-        - Phần mềm Finding Home cóc chức năng tìm kiếm thông qua Google API \n
-        - Phần mềm hỗ trợ 2 ngôn ngữ(Anh, Việt).\n
+        - Phần mềm Finding Room cóc chức năng tìm kiếm thông qua Google API, WordPress Rest API \n
         - Để đáp ứng nhu cầu của người sử dụng, phần mềm ra đời giúp cho người sử dụng dễ tìm kiếm
     phòng trọ hơn mà không cần phải đi khắp nơi để tìm kiếm.\n
         - Phần mềm có các chức năng chính như:\n
             \t + Tìm kiếm theo từ khóa \n
+            \t + Tìm kiếm trên bản đồ \n
             \t + Đăng thông tin và hình ảnh về phòng trọ mà người dùng muốn cho thuê ...\n
         - Chúng tôi, những người làm ra phần mềm này cam kết giúp người dùng trải nghiệm phần mềm tốt nhất, tiện lợi nhất.\n
         Những người thực hiện: Lê Mạnh Cường, Hà Thị Lam, Nguyễn Bá Mạnh \n

@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -29,23 +27,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.adapter.CacPhongDaDangAdapter;
-import findingroom.cuonglm.poly.vn.findingroom.adapter.DanhSachAdapter;
+import findingroom.cuonglm.poly.vn.findingroom.adapter.ListRoomAdapter;
 import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
-import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
 import findingroom.cuonglm.poly.vn.findingroom.model.Room;
-import findingroom.cuonglm.poly.vn.findingroom.rest.DoingWithAPI;
 import findingroom.cuonglm.poly.vn.findingroom.rest.RestClient2;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DanhSachPhongTroFragment extends Fragment {
+public class FindListRoomFragment extends Fragment {
     private RecyclerView recyclerView;
-    private DanhSachAdapter adapter;
+    private ListRoomAdapter adapter;
     private Spinner filterDistrict;
 
     ArrayList<Room> listRoom;
@@ -54,10 +48,10 @@ public class DanhSachPhongTroFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_danh_sach_phong_tro, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_room, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_danhsach);
         listRoom = new ArrayList<>();
-        adapter = new DanhSachAdapter(listRoom) {
+        adapter = new ListRoomAdapter(listRoom) {
 
         };
         filterDistrict = view.findViewById(R.id.filterDistrict);

@@ -20,7 +20,6 @@
         <activity
             android:name=".uis.ACLogin"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,16 +30,15 @@
             android:name=".uis.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".uis.SignupActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".uis.DeitalActivity"
-            android:windowSoftInputMode="adjustPan"
+        <activity
+            android:name=".uis.DeitalActivity"
             android:parentActivityName=".uis.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -53,7 +51,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".uis.TimPhongTroActivity"></activity>
+        <activity android:name=".uis.FindRoomActivity" />
+        <activity android:name=".uis.DetailPostedRoom"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"></activity>
     </application>
 
 </manifest>

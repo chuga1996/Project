@@ -12,19 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
-import findingroom.cuonglm.poly.vn.findingroom.fragment.DanhSachPhongTroFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.FindListRoomFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.MapsFragment;
 
-public class TimPhongTroActivity extends AppCompatActivity {
-    private DanhSachPhongTroFragment danhSachPhongTroFragment;
+public class FindRoomActivity extends AppCompatActivity {
+    private FindListRoomFragment danhSachPhongTroFragment;
     private MapsFragment mapsFragment;
     private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_tim_phong_tro);
+        setContentView(R.layout.activity_find_room);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_timphongtro);
         toolbar.setTitle("");
@@ -36,7 +35,7 @@ public class TimPhongTroActivity extends AppCompatActivity {
             }
         });
 
-        danhSachPhongTroFragment = new DanhSachPhongTroFragment();
+        danhSachPhongTroFragment = new FindListRoomFragment();
         mapsFragment = new MapsFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();

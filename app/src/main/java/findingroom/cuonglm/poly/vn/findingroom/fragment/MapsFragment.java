@@ -1,7 +1,13 @@
 package findingroom.cuonglm.poly.vn.findingroom.fragment;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,10 +15,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -25,11 +34,21 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
+import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
+import findingroom.cuonglm.poly.vn.findingroom.rest.RestClient2;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
@@ -41,7 +60,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private ImageView imgLocation;
     private ImageView imgZoomIn;
     private ImageView imgZoomOut;
-    List<String> stringList;
+    List<String> stringList = new ArrayList<>();;
+    List<Address> listAddress;
 
     @Nullable
     @Override
@@ -55,11 +75,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         imgZoomIn = (ImageView) view.findViewById(R.id.img_zoom_in);
         imgZoomOut = (ImageView) view.findViewById(R.id.img_zoom_out);
 
-        stringList = new ArrayList<>();
-        stringList.add("Ba Đình");
-        stringList.add("Hoàn Kiếm");
-        stringList.add("Cầu giấy");
-        stringList.add("Đống Đa");
+
 
         return view;
     }
@@ -77,10 +93,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         LatLng hanoi = new LatLng(21.0358, 105.8336);
         mMap = googleMap;
-        CameraPosition position = new CameraPosition(hanoi, 10, 0, 0);
+        CameraPosition position = new CameraPosition(hanoi, 12, 0, 0);
 
-        // Add a marker in Sydney and move the camera
-        mMap.addMarker(new MarkerOptions().position(hanoi).title("Hà Nội"));
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
         client = LocationServices.getFusedLocationProviderClient(getActivity());
 
@@ -104,18 +118,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 mMap.animateCamera(CameraUpdateFactory.zoomOut());
             }
         });
+        getCategories();
 
-        LatLng vitri1 = new LatLng(21.0388, 105.8436);
-        mMap.addMarker(new MarkerOptions().position(vitri1).title(stringList.get(0)));
 
-        LatLng vitri2 = new LatLng(21.0488, 105.8436);
-        mMap.addMarker(new MarkerOptions().position(vitri2).title(stringList.get(1)));
-
-        LatLng vitri3 = new LatLng(21.0788, 105.8436);
-        mMap.addMarker(new MarkerOptions().position(vitri3).title(stringList.get(2)));
-
-        LatLng vitri4 = new LatLng(21.0578, 105.8436);
-        mMap.addMarker(new MarkerOptions().position(vitri4).title(stringList.get(3)));
 
     }
 
@@ -145,5 +150,93 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }else {
             Toast.makeText(getActivity(), "Không được cấp quyền!", Toast.LENGTH_SHORT).show();
         }
+    }
+    ArrayList<Categories> listCategory;
+    ProgressDialog dialog;
+
+    public void getCategories() {
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage("Loading...");
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        listCategory = new ArrayList<>();
+        Call<JsonElement> callGetCategories = RestClient2.getApiInterface().getCategories(40);
+        callGetCategories.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                JsonElement jsonElement = response.body();
+                JsonArray listCategories = jsonElement.getAsJsonArray();
+                for (int i = 0; i < listCategories.size(); i++) {
+                    JsonObject cateogory = listCategories.get(i).getAsJsonObject();
+
+                    int id = cateogory.get("id").getAsInt();
+                    if (id != 1) {
+                        String name = cateogory.get("name").getAsString();
+                        listCategory.add(new Categories(id, name));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Không tải được");
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.show();
+                t.printStackTrace();
+            }
+        });
+        getLocation();
+    }
+
+    public void getLocation(){
+        Call<JsonElement> callGetAllRoom = RestClient2.getApiInterface().getPosts();
+        callGetAllRoom.enqueue(new Callback<JsonElement>() {
+            @Override
+            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                dialog.dismiss();
+                JsonArray listPost = response.body().getAsJsonArray();
+                for (int i = 0; i < listPost.size(); i++){
+                    JsonObject post = listPost.get(i).getAsJsonObject();
+                    String address = post.get("title").getAsJsonObject().get("rendered").getAsString();
+                    String district = "";
+                    int idDistrict = post.get("categories").getAsJsonArray().get(0).getAsInt();
+                    for (int j = 0; j < listCategory.size(); j++) {
+                        if (idDistrict == listCategory.get(j).getId()) {
+                            district = listCategory.get(j).getName();
+
+                        }
+                    }
+
+                    stringList.add(address+", "+district);
+                }
+                for (int i = 0; i<stringList.size();i++){
+                    Geocoder coder = new Geocoder(getContext());
+                    try {
+                        listAddress = coder.getFromLocationName(stringList.get(i),1);
+                        if(listAddress.size()>0){
+                            double latRoom =listAddress.get(0).getLatitude();
+                            double longRoom = listAddress.get(0).getLongitude();
+                            LatLng room = new LatLng(latRoom, longRoom);
+                            mMap.addMarker(new MarkerOptions().position(room).title(stringList.get(i)));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonElement> call, Throwable t) {
+
+            }
+        });
     }
 }

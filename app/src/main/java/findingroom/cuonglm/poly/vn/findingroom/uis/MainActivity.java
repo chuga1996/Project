@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,16 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.fragment.CacPhongDaDangFragment;
-import findingroom.cuonglm.poly.vn.findingroom.fragment.GioiThieuFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.PostedRoomFragment;
+import findingroom.cuonglm.poly.vn.findingroom.fragment.AboutFragment;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.PostRoomFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FrameLayout frameLayout;
     private PostRoomFragment postRoomFragment;
-    private CacPhongDaDangFragment cacPhongDaDangFragment;
-    private GioiThieuFragment gioiThieuFragment;
+    private PostedRoomFragment postedRoomFragment;
+    private AboutFragment gioiThieuFragment;
     private View navHeader;
     private String displayname,email;
     TextView navDisplayName,navDisplayEmail;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Finding Home");
+        toolbar.setTitle("Giới thiệu");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        gioiThieuFragment = new GioiThieuFragment();
+        gioiThieuFragment = new AboutFragment();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -90,7 +89,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
         transaction.commit();
-        startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
+        startActivity(new Intent(MainActivity.this, FindRoomActivity.class));
     }
 
     private boolean flag = true;
@@ -118,8 +117,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Bundle bundlePostedroom = new Bundle();
         bundlePostedroom.putInt("id",idAuthor);
-        cacPhongDaDangFragment = new CacPhongDaDangFragment();
-        cacPhongDaDangFragment.setArguments(bundlePostedroom);
+        postedRoomFragment = new PostedRoomFragment();
+        postedRoomFragment.setArguments(bundlePostedroom);
 
 
         Bundle bundle = new Bundle();
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity
 
         frameLayout = (FrameLayout) findViewById(R.id.frameMain);
         if (id == R.id.nav_find) {
-            startActivity(new Intent(MainActivity.this, TimPhongTroActivity.class));
+            startActivity(new Intent(MainActivity.this, FindRoomActivity.class));
 
         } else if (id == R.id.nav_postRoom) {
             if (postRoomFragment.isAdded()) {
@@ -148,13 +147,13 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_postedRoom) {
-            if (cacPhongDaDangFragment.isAdded()) {
-                transaction.show(cacPhongDaDangFragment);
+            if (postedRoomFragment.isAdded()) {
+                transaction.show(postedRoomFragment);
             } else {
-                transaction.add(R.id.frameMain, cacPhongDaDangFragment);
+                transaction.add(R.id.frameMain, postedRoomFragment);
             }
             for (Fragment x : fragmentManager.getFragments()) {
-                if (x != cacPhongDaDangFragment && x.isAdded()) {
+                if (x != postedRoomFragment && x.isAdded()) {
                     transaction.hide(x);
                 }
             }

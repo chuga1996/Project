@@ -4,7 +4,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
@@ -24,4 +26,6 @@ public interface ApiInterface {
     Call<JsonElement> getCookieUser(@Query("nonce") String nonce,
                                     @Query("username") String username,
                                     @Query("password") String password);
+
+
 }

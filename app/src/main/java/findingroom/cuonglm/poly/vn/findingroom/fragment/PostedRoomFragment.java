@@ -26,18 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.adapter.CacPhongDaDangAdapter;
+import findingroom.cuonglm.poly.vn.findingroom.adapter.PostedRoomAdapter;
 import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
-import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
 import findingroom.cuonglm.poly.vn.findingroom.model.Room;
 import findingroom.cuonglm.poly.vn.findingroom.rest.RestClient2;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CacPhongDaDangFragment extends Fragment {
+public class PostedRoomFragment extends Fragment {
     RecyclerView recyclerView;
-    CacPhongDaDangAdapter adapter;
+    PostedRoomAdapter adapter;
     List<Room> phongTroList;
     int idAuthor;
     ArrayList<Categories> listCategory;
@@ -45,10 +44,10 @@ public class CacPhongDaDangFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cac_phong_da_dang,container,false);
+        View view = inflater.inflate(R.layout.fragment_posted_room,container,false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_cacphongdadang);
         phongTroList = new ArrayList<>();
-        adapter = new CacPhongDaDangAdapter(phongTroList);
+        adapter = new PostedRoomAdapter(phongTroList);
         listCategory = new ArrayList<>();
         idAuthor = getArguments().getInt("id");
         Log.e("id", idAuthor+"");
@@ -85,6 +84,7 @@ public class CacPhongDaDangFragment extends Fragment {
                             for (int i = 0; i < listPost.size(); i++) {
                                 try {
                                     JsonObject post = listPost.get(i).getAsJsonObject();
+                                    int id  = post.get("id").getAsInt();
                                     String address = post.get("title").getAsJsonObject().get("rendered").getAsString();
                                     String district = "";
                                     int idDistrict = post.get("categories").getAsJsonArray().get(0).getAsInt();
@@ -106,7 +106,7 @@ public class CacPhongDaDangFragment extends Fragment {
                                     int people = jsonObject.getInt("people");
                                     String image = jsonObject.getString("image");
                                     String phone = jsonObject.getString("phone");
-                                    Room room = new Room(address, district, price, people, phone, image);
+                                    Room room = new Room(address, district, price, people, phone, image,id);
                                     phongTroList.add(room);
                                     adapter.notifyDataSetChanged();
                                     dialog2.dismiss();

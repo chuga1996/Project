@@ -2,11 +2,11 @@ package findingroom.cuonglm.poly.vn.findingroom.fragment;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -27,12 +28,7 @@ import com.google.gson.JsonObject;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +65,7 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dang_phong_tro, container, false);
+        View view = inflater.inflate(R.layout.fragment_post_room, container, false);
 
         widget(view);
         imgList.add(img1Dpt);
@@ -134,7 +130,14 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
                     uploadImage();
 
                 }
-
+                break;
+            case R.id.btn_cancle_dpt:
+                edtDiachiDpt.setText("");
+                img1Dpt.setImageResource(android.R.color.transparent);
+                spnQuanhuyenDpt.setSelection(0);
+                edtGiaDpt.setText("");
+                edtSonguoiDpt.setText("");
+                edtSodienthoaiDpt.setText("");
         }
     }
 
@@ -174,11 +177,37 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
                     }
                 }
                 ArrayList<String> listString = new ArrayList<>();
+                listString.add("Chọn quận để tìm...");
                 for (int i = 0; i < list.size(); i++) {
                     listString.add(list.get(i).toString());
                 }
-                Log.e("list2", list.size() + "");
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, listString);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, listString) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
+
                 spnQuanhuyenDpt.setAdapter(adapter);
 
             }
@@ -201,28 +230,37 @@ public class PostRoomFragment extends android.support.v4.app.Fragment implements
     }
 
     public void uploadImage() {
-        String auth = Credentials.basic(username, password);
-        File file = new File(pathFile);
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse(pathFile), file);
-        Log.e("path",pathFile);
-        MultipartBody.Part uploadPart =
-                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-        Call<JsonElement> callUploadImage = RestClient2.getApiInterface().uploadImage(auth, uploadPart);
-        callUploadImage.enqueue(new Callback<JsonElement>() {
-            @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                JsonObject image = response.body().getAsJsonObject();
-                link = image.get("guid").getAsJsonObject().get("rendered").getAsString();
-                String content = "{\"price\":" + price + ",\"people\":" + people + ",\"image\":\"" + link + "\",\"phone\":\"" + phone + "\"}";
-                DoingWithAPI.uploadPost(getContext(), address, content, username, password, idCategory);
-            }
+        if(pathFile!=null){
+            String auth = Credentials.basic(username, password);
+            File file = new File(pathFile);
+            RequestBody requestFile =
+                    RequestBody.create(MediaType.parse(pathFile), file);
+            Log.e("path",pathFile);
+            MultipartBody.Part uploadPart =
+                    MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+            Call<JsonElement> callUploadImage = RestClient2.getApiInterface().uploadImage(auth, uploadPart);
+            callUploadImage.enqueue(new Callback<JsonElement>() {
+                @Override
+                public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
+                    JsonObject image = response.body().getAsJsonObject();
+                    link = image.get("guid").getAsJsonObject().get("rendered").getAsString();
+                    String content = "{\"price\":" + price + ",\"people\":" + people + ",\"image\":\"" + link + "\",\"phone\":\"" + phone + "\"}";
+                    DoingWithAPI.uploadPost(getContext(), address, content, username, password, idCategory);
+                }
 
-            @Override
-            public void onFailure(Call<JsonElement> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<JsonElement> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }else{
+            Toast toast = Toast.makeText(getContext(), "Mời chọn ảnh cho phòng trọ", Toast.LENGTH_SHORT);
+            View view = toast.getView();
+            view.setBackgroundColor(Color.WHITE);
+            TextView v = (TextView) view.findViewById(android.R.id.message);
+            v.setTextColor(Color.RED);
+            toast.show();
+        }
 
     }
 }

@@ -16,35 +16,34 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
 import findingroom.cuonglm.poly.vn.findingroom.model.Room;
-import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
+import findingroom.cuonglm.poly.vn.findingroom.uis.DetailPostedRoom;
 
-public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHolder> {
+public class PostedRoomAdapter extends RecyclerView.Adapter<PostedRoomAdapter.ViewHolder> {
     private List<Room> roomList;
     Context context;
-    public DanhSachAdapter(List<Room> roomList) {
+    public PostedRoomAdapter(List<Room> roomList) {
         this.roomList = roomList;
     }
 
     @NonNull
     @Override
-    public DanhSachAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PostedRoomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
+        View view = inflater.inflate(R.layout.item_room,parent,false);
         context= view.getContext();
 
 
-        return new DanhSachAdapter.ViewHolder(view);
+        return new PostedRoomAdapter.ViewHolder(view);
     }
-    
+
     @Override
-    public void onBindViewHolder(@NonNull final DanhSachAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final PostedRoomAdapter.ViewHolder holder, final int position) {
         Room room = roomList.get(position);
 //        holder.imgHinhanhphongtro.setImageResource(room.getmImg());
         holder.tvDiachi.setText(room.getFullAddress());
         holder.tvSonguoi.setText("Số người: "+ room.getPeople()+" người/phòng");
-        holder.tvGia.setText("Giá: "+ room.getPrice() +" đ");
+        holder.tvGia.setText("Giá: "+ String.format("%,d",room.getPrice()).replace(",",".") +" đ");
         Glide.with(context)
                 .load(room.getImgResource())
                 .into(holder.imgHinhanhphongtro);
@@ -53,12 +52,15 @@ public class DanhSachAdapter extends RecyclerView.Adapter<DanhSachAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent((Activity)context , DeitalActivity.class);
+                Intent intent = new Intent((Activity)context , DetailPostedRoom.class);
+//                intent.putExtra("imageresource", roomList.get(position).getImgResource());
                 intent.putExtra("address", roomList.get(position).getAddress());
                 intent.putExtra("district", roomList.get(position).getDistrict());
                 intent.putExtra("price", roomList.get(position).getPrice()+"");
                 intent.putExtra("people", roomList.get(position).getPeople()+"");
                 intent.putExtra("phone", roomList.get(position).getPhone()+"");
+                intent.putExtra("image",roomList.get(position).getImgResource());
+                intent.putExtra("id",roomList.get(position).getId());
                 context.startActivity(intent);
             }
         });

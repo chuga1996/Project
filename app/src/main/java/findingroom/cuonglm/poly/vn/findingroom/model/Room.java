@@ -7,6 +7,26 @@ public class Room {
     int people;
     String phone;
     String imgResource;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Room(String address, String district, int price, int people, String phone, String imgResource, int id) {
+
+        this.address = address;
+        this.district = district;
+        this.price = price;
+        this.people = people;
+        this.phone = phone;
+        this.imgResource = imgResource;
+        this.id = id;
+    }
 
     public String getAddress() {
         return address;

@@ -1,52 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".uis.DetailPostedRoom">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="Hình Ảnh" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="16dp">
 
             <ImageView
-                android:id="@+id/img1_dpt"
-                android:layout_width="320dp"
-                android:layout_height="240dp"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:scaleType="centerCrop"
+                android:id="@+id/img_dadang"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/logo"
+                android:text="Deital"
                 android:textSize="30sp" />
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_upload_image_dpt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Tải lên"
-            android:textSize="10sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -65,19 +52,18 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/edt_diachi_dpt"
+                <TextView
+                    android:id="@+id/tv_dadang_diachi"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
                     android:paddingLeft="10dp"
-                    android:textColor="#818480"
+                    android:textColor="#000"
+                    android:gravity="center"
                     android:textSize="16dp" />
 
             </LinearLayout>
-
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,14 +79,15 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <Spinner
-                    android:id="@+id/spinner_quanhuyen_dpt"
+                <TextView
+                    android:id="@+id/tv_dadang_quanhuyen"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
                     android:paddingLeft="10dp"
-                    android:textColor="#818480"
+                    android:textColor="#000"
+                    android:gravity="center"
                     android:textSize="16dp" />
 
             </LinearLayout>
@@ -119,15 +106,15 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/edt_gia_dpt"
+                <TextView
+                    android:id="@+id/tv_dadang_gia"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:inputType="number"
                     android:paddingLeft="10dp"
-                    android:textColor="#818480"
+                    android:textColor="#000"
+                    android:gravity="center"
                     android:textSize="16dp" />
 
             </LinearLayout>
@@ -146,17 +133,16 @@
                     android:textColor="#818480"
                     android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/edt_songuoi_dpt"
+                <TextView
+                    android:id="@+id/tv_dadang_songuoi"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:inputType="number"
                     android:paddingLeft="10dp"
-                    android:textColor="#818480"
+                    android:textColor="#000"
+                    android:gravity="center"
                     android:textSize="16dp" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -172,39 +158,17 @@
                     android:text="SĐT"
                     android:textSize="14dp" />
 
-                <EditText
-                    android:id="@+id/edt_sodienthoai_dpt"
+                <TextView
+                    android:id="@+id/tv_dadang_sdt"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/edt_diachi_dpt"
                     android:background="@drawable/duongvien_goctron"
-                    android:inputType="phone"
                     android:paddingLeft="10dp"
+                    android:gravity="center"
+                    android:textColor="#000"
                     android:textSize="16dp" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_post_dpt"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="Post" />
-
-                <Button
-                    android:id="@+id/btn_cancle_dpt"
-                    android:layout_width="150dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:text="Cancel" />
             </LinearLayout>
 
         </LinearLayout>

@@ -10,42 +10,40 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.List;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
-import findingroom.cuonglm.poly.vn.findingroom.model.PhongTro;
 import findingroom.cuonglm.poly.vn.findingroom.model.Room;
 import findingroom.cuonglm.poly.vn.findingroom.uis.DeitalActivity;
 
-public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAdapter.ViewHolder> {
+public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.ViewHolder> {
     private List<Room> roomList;
     Context context;
-    public CacPhongDaDangAdapter(List<Room> roomList) {
+    public ListRoomAdapter(List<Room> roomList) {
         this.roomList = roomList;
     }
 
     @NonNull
     @Override
-    public CacPhongDaDangAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ListRoomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_cacphongdadang_recyclerview,parent,false);
+        View view = inflater.inflate(R.layout.item_room,parent,false);
         context= view.getContext();
 
 
-        return new CacPhongDaDangAdapter.ViewHolder(view);
+        return new ListRoomAdapter.ViewHolder(view);
     }
-
+    
     @Override
-    public void onBindViewHolder(@NonNull final CacPhongDaDangAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ListRoomAdapter.ViewHolder holder, final int position) {
         Room room = roomList.get(position);
 //        holder.imgHinhanhphongtro.setImageResource(room.getmImg());
         holder.tvDiachi.setText(room.getFullAddress());
         holder.tvSonguoi.setText("Số người: "+ room.getPeople()+" người/phòng");
-        holder.tvGia.setText("Giá: "+ room.getPrice() +" đ");
+        holder.tvGia.setText("Giá: "+ String.format("%,d",room.getPrice()).replace(",",".") +" đ");
         Glide.with(context)
                 .load(room.getImgResource())
                 .into(holder.imgHinhanhphongtro);
@@ -55,12 +53,12 @@ public class CacPhongDaDangAdapter extends RecyclerView.Adapter<CacPhongDaDangAd
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent((Activity)context , DeitalActivity.class);
-//                intent.putExtra("imageresource", roomList.get(position).getImgResource());
                 intent.putExtra("address", roomList.get(position).getAddress());
                 intent.putExtra("district", roomList.get(position).getDistrict());
                 intent.putExtra("price", roomList.get(position).getPrice()+"");
                 intent.putExtra("people", roomList.get(position).getPeople()+"");
                 intent.putExtra("phone", roomList.get(position).getPhone()+"");
+                intent.putExtra("image",roomList.get(position).getImgResource());
                 context.startActivity(intent);
             }
         });
