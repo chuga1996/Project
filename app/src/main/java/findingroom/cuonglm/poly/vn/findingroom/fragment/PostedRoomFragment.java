@@ -1,8 +1,10 @@
 package findingroom.cuonglm.poly.vn.findingroom.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,17 +32,19 @@ import findingroom.cuonglm.poly.vn.findingroom.adapter.PostedRoomAdapter;
 import findingroom.cuonglm.poly.vn.findingroom.model.Categories;
 import findingroom.cuonglm.poly.vn.findingroom.model.Room;
 import findingroom.cuonglm.poly.vn.findingroom.rest.RestClient2;
+import findingroom.cuonglm.poly.vn.findingroom.uis.DetailPostedRoom;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PostedRoomFragment extends Fragment {
+public class PostedRoomFragment extends Fragment implements PostedRoomAdapter.CallbackInterface {
     RecyclerView recyclerView;
     PostedRoomAdapter adapter;
     List<Room> phongTroList;
     int idAuthor;
     ArrayList<Categories> listCategory;
     ProgressDialog dialog2;
+    String username, password;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,7 +54,8 @@ public class PostedRoomFragment extends Fragment {
         adapter = new PostedRoomAdapter(phongTroList);
         listCategory = new ArrayList<>();
         idAuthor = getArguments().getInt("id");
-        Log.e("id", idAuthor+"");
+        username = getArguments().getString("username");
+        password = getArguments().getString("password");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -144,5 +149,30 @@ public class PostedRoomFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("result", resultCode+" " + data.getExtras().getInt("id",0));
+        Log.e("request", requestCode+"");
+        if (requestCode==1){
 
+            for (int i = 0; i<phongTroList.size();i++){
+                if (phongTroList.get(i).getId()==data.getExtras().getInt("id",0)){
+                    phongTroList.remove(i);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onHandleSelection(Room room) {
+        Intent secondActivity = new Intent(getContext(), DetailPostedRoom.class);
+        secondActivity.putExtra("room",room);
+        secondActivity.putExtra("username",getActivity().getIntent().getStringExtra("username"));
+        secondActivity.putExtra("password",getActivity().getIntent().getStringExtra("password"));
+        startActivityForResult(secondActivity, 1);
+    }
 }

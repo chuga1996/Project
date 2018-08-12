@@ -22,7 +22,6 @@ public class ACLogin extends AppCompatActivity {
     private TextView tvSignup;
     private CheckBox cbcheck;
     private Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,5 +82,4 @@ public class ACLogin extends AppCompatActivity {
         }
         cbcheck.setChecked(check);
     }
-
 }

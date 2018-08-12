@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".uis.ACLogin">
 
+    tools:context=".uis.ACLogin">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_login"
+        android:alpha="0.7"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -38,7 +47,8 @@
                     android:drawablePadding="10dp"
                     android:hint="Username"
                     android:singleLine="true"
-                    android:inputType="text"/>
+                    android:inputType="text"
+                    android:textColorHint="#e9e9e9"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -53,15 +63,16 @@
                     android:drawablePadding="10dp"
                     android:inputType="textPassword"
                     android:hint="Password"
-                    android:singleLine="true"/>
+                    android:singleLine="true"
+                    android:textColorHint="#e9e9e9"/>
             </android.support.design.widget.TextInputLayout>
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/cbcheck"
                 android:checked="false"
-                android:textColor="#888888"
-                android:text="Remember"
+                android:textColor="#ff6060"
+                android:text="Remember?"
                 />
 
             <Button
@@ -69,18 +80,22 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:background="#FFF"
+                android:alpha="0.8"
                 android:text="Login" />
 
         </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_signup"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textColor="#00f"
-        android:textStyle="italic"
-        android:gravity="bottom|center_horizontal"
-        android:text="Sign up"/>
+        <TextView
+            android:id="@+id/tv_signup"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:textStyle="italic"
+            android:gravity="bottom|center_horizontal"
+            android:text="Sign up"/>
 
-</LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

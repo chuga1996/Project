@@ -16,8 +16,7 @@
             android:id="@+id/collapsingToolbar"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="Finding Room"
-            app:titleTextColor="#00f">
+            app:collapsedTitleTextAppearance="@style/CollapsedAppBar">
 
 
 

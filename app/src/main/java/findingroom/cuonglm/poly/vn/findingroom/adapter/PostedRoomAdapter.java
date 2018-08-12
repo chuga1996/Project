@@ -22,6 +22,7 @@ import findingroom.cuonglm.poly.vn.findingroom.uis.DetailPostedRoom;
 public class PostedRoomAdapter extends RecyclerView.Adapter<PostedRoomAdapter.ViewHolder> {
     private List<Room> roomList;
     Context context;
+    CallbackInterface callBack;
     public PostedRoomAdapter(List<Room> roomList) {
         this.roomList = roomList;
     }
@@ -61,7 +62,9 @@ public class PostedRoomAdapter extends RecyclerView.Adapter<PostedRoomAdapter.Vi
                 intent.putExtra("phone", roomList.get(position).getPhone()+"");
                 intent.putExtra("image",roomList.get(position).getImgResource());
                 intent.putExtra("id",roomList.get(position).getId());
-                context.startActivity(intent);
+                intent.putExtra("username",((Activity) context).getIntent().getStringExtra("username"));
+                intent.putExtra("password",((Activity) context).getIntent().getStringExtra("password"));
+                ((Activity) context).startActivityForResult(intent, 1);
             }
         });
 
@@ -87,5 +90,9 @@ public class PostedRoomAdapter extends RecyclerView.Adapter<PostedRoomAdapter.Vi
             tvGia = (TextView) itemView.findViewById(R.id.tv_gia);
             tvChitiet = (TextView) itemView.findViewById(R.id.tv_chitiet);
         }
+    }
+    public interface CallbackInterface{
+
+        void onHandleSelection(Room room);
     }
 }

@@ -1,6 +1,8 @@
 package findingroom.cuonglm.poly.vn.findingroom.model;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
     String address;
     String district;
     int price;

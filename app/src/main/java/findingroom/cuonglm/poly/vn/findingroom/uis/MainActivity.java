@@ -1,8 +1,10 @@
 package findingroom.cuonglm.poly.vn.findingroom.uis;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,6 +21,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import net.alhazmy13.mediapicker.Image.ImagePicker;
 
 import findingroom.cuonglm.poly.vn.findingroom.R;
 import findingroom.cuonglm.poly.vn.findingroom.fragment.PostedRoomFragment;
@@ -92,19 +96,25 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(MainActivity.this, FindRoomActivity.class));
     }
 
-    private boolean flag = true;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (flag == false){
-            super.onBackPressed();
-        } else {
-            flag = false;
-            Toast.makeText(this, "Nhấn back thêm một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+        if (doubleBackToExitPressedOnce) {
+            finish();
+            return;
         }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Nhấn back lần nữa để thoát", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 
 
@@ -117,6 +127,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Bundle bundlePostedroom = new Bundle();
         bundlePostedroom.putInt("id",idAuthor);
+        bundlePostedroom.putString("username",username);
+        bundlePostedroom.putString("password",password);
         postedRoomFragment = new PostedRoomFragment();
         postedRoomFragment.setArguments(bundlePostedroom);
 
@@ -175,13 +187,17 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
 
         } else if (id == R.id.nav_thoat) {
-            final AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
-            dialog3.setTitle("Bạn có chắc là muốn thoát");
+            final AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this);
+            dialog3.setTitle("Bạn có chắc là muốn đăng xuất");
             dialog3.setCancelable(true);
             dialog3.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    System.exit(1);
+                    Intent intent = new Intent(MainActivity.this, ACLogin.class);
+                    intent.putExtra("logined", false);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // To clean up all activities
+                    startActivity(intent);
+                    finish();
                 }
             });
             dialog3.show();
@@ -189,7 +205,6 @@ public class MainActivity extends AppCompatActivity
         item.setCheckable(false);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
         return true;
     }
 
@@ -220,6 +235,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        postRoomFragment.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE){
+            postRoomFragment.onActivityResult(requestCode, resultCode, data);
+        }else if(resultCode == Activity.RESULT_OK){
+            Log.e("resultAC", resultCode + " "+  data.getIntExtra("id", 0));
+            postedRoomFragment.onActivityResult(requestCode, resultCode, data);
+        }
     }
+
 }

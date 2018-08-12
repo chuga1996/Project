@@ -4,13 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".uis.DetailPostedRoom">
+    tools:context=".uis.DetailPostedRoom"
+    android:paddingTop="16dp">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="Phòng đã đăng"
+            android:textColor="#00f"
+            android:layout_gravity="center"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,6 +164,7 @@
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:text="SĐT"
+                    android:textColor="#818480"
                     android:textSize="14dp" />
 
                 <TextView
@@ -170,8 +179,16 @@
                     android:textSize="16dp" />
 
             </LinearLayout>
-
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_deletePost"
+                android:text="Xoá"
+                android:layout_gravity="center"
+                android:textColor="#f00"
+                android:textAllCaps="false"/>
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

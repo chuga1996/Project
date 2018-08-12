@@ -13,6 +13,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface2 {
@@ -39,5 +40,7 @@ public interface ApiInterface2 {
     Call<JsonElement> getPostsByAuthor(@Query("author") int idAuthor);
 
 
+    @DELETE("posts/{id}/")
+    Call<JsonElement> deletePostbyID(@Path(value = "id",encoded = true) int id, @Query("force") String force,@Header("Authorization") String auth );
 
 }

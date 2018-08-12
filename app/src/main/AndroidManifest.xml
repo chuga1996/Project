@@ -28,7 +28,6 @@
         </activity>
         <activity
             android:name=".uis.MainActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"></activity>
         <activity
@@ -52,8 +51,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".uis.FindRoomActivity" />
-        <activity android:name=".uis.DetailPostedRoom"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"></activity>
+        <activity android:name=".uis.DetailPostedRoom"></activity>
     </application>
 
 </manifest>
