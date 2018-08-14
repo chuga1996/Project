@@ -1,14 +1,8 @@
 <resources>
     <string name="app_name">Finding Room</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_maps_fragment">Bản đồ</string>
-    <string name="app_name1">Giới thiệu</string>
     <string name="content">
         - Phần mềm Finding Room là phần mềm trên điện thoại di động thông minh
     sử dụng hệ điều hành Android.\n
@@ -22,8 +16,4 @@
         - Chúng tôi, những người làm ra phần mềm này cam kết giúp người dùng trải nghiệm phần mềm tốt nhất, tiện lợi nhất.\n
         Những người thực hiện: Lê Mạnh Cường, Hà Thị Lam, Nguyễn Bá Mạnh \n
         Địa chỉ: Tòa nhà H, Hàm Nghi, Mĩ Đình, Băc Từ Liêm, Hà Nội.</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="promt_spinner">Chọn quận để tìm...</string>
 </resources>
